@@ -1,0 +1,219 @@
+@mixin flexProvider($align,$justify,$direction){
+    display: flex;
+    flex-direction:$direction;
+    align-items: $align;
+    justify-content: $justify;
+}
+
+
+.ticket-reply-bottom-container{
+    
+    height: 88.85vh;
+
+    .search-field-wrapper{
+        width: 100%;
+        height: 10%;
+        padding-top: 0.1%;
+        position: relative;
+        top:3%;
+        margin-bottom: 5%;
+        @include flexProvider(center,space-around,row);
+
+        
+        .input-field-wrapper{
+            width: 30%;
+            height: 100%;
+            
+            
+            input{
+                border:2px solid rgba(78, 77, 77, 0.349);
+                width: 100%;
+                height: 35%;
+                background: url('../../Icons/icons8-search-26.png') no-repeat;
+                background-size: 5%;
+                background-position: right;
+            }
+            
+        }
+        
+    }
+
+    .reply-flexbox{
+        width: 100%;
+        height: 74.5vh;
+
+        @include flexProvider(center, space-evenly , row );
+
+        .ticket-reply-bottom-container-left-side{
+            @include flexProvider(flex-start, space-evenly , column );
+        }
+
+        .date-reply-comment-wrapper{
+            font-size: 14px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            @include flexProvider(flex-start,space-between ,row );
+            width: 100%;
+            
+
+            .reply-wrapper-right-side{
+                width: 50%;
+                @include flexProvider(baseline  , space-between ,row );
+
+                div{
+                    @include flexProvider(flex-start,space-evenly ,row );
+                    margin-right: 7%;
+                    width: 40%;
+                    p{
+                        margin-top:0;   
+                    }
+                    i{margin-right: 10%;}
+                }
+            }
+        }
+        
+        .ticket-reply-form-wrapper{
+            width: 100%;
+        }
+        .attach-file-wrapper{
+            width: 50%;
+            @include flexProvider(center,space-around ,row );
+            color: orangered;
+            font-size: 14px;
+
+            .black-text{
+                color: black;
+            }
+        }
+
+        .buttons-wrapper{   
+            width: 80%;
+            input,button{
+            color: white;
+            background-color: rgba(255, 68, 0, 0.952);
+            border: 2px solid rgba(255, 68, 0, 0.952);
+            margin: 3%;
+            padding: 2%;
+            width:25%;
+            height: 90%;
+            border-radius: 2.5px;
+            }
+
+            .cancel-wrapper{
+                button{
+                    color: black;
+                    background: transparent;
+                    border: 2px solid rgba(78, 77, 77, 0.349);
+                }
+            }
+        }
+        
+
+        .ticket-reply-bottom-container-right-side{
+            height: 80vh;
+            width: 28%;
+           overflow: auto;
+            .ticket-brief-information-wrapper{
+                position: relative;
+                top:80px;
+                height: 100%;
+                @include flexProvider(flex-start,space-evenly ,column );
+
+
+                
+                .add-ticket-button{
+                    button{
+                        color: white;
+                        background: orangered;
+                        border: 2px solid rgba(255, 68, 0, 0.829);
+                        border-radius: 3px;
+                        width:100px;
+                        padding: 8px;
+                        height: 35px;
+                    }
+                }
+
+                .edit-ticket-properties-wrapper{
+                    
+                    width: 80%;
+                    @include flexProvider(flex-start,space-between ,row );
+                    p{
+                        margin:0;
+                    }
+                }
+                .assigned-officer-wrapper{
+                    display: flex;
+                    flex-direction: column;
+                    font-size: 14px;
+                    color: rgba(0, 0, 0, 0.795);
+                }
+
+                .profile-wrapper{
+                    display: flex;
+                    flex-direction: row;
+                    align-items: flex-start;
+                    justify-content: stretch;
+                    margin:4px;
+                    
+                    color: black;
+                    font-weight: bold;
+                    span{
+                        margin-left: 4px;
+                    }
+                }
+
+                .profile-picture-wrapper{
+                    display: inline-block;
+                    width:20px;
+                    height:20px;
+                    border: 1px solid black;
+                    border-radius: 50%;
+                    position: relative;
+                    bottom: 2.5px;
+                }
+
+                div{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    margin-bottom: 10px;
+                    color: rgba(0, 0, 0, 0.795);
+    
+                    span{
+                        font-size: 14px;
+                        margin-bottom: 2px; 
+                    }
+                }
+
+                 
+            .date-time-wrapper{
+                font-weight: bold;
+                color: black;
+            }
+            .red-text{
+                color: red;
+            }
+
+            .ticket-brief-location-wrapper{
+                
+                .city-text{
+                    color: black;
+                    font-size: 15px;
+                    font-weight: normal;
+                }
+            }
+
+                select{
+                    border: none;
+                    background-color: transparent;
+                    font-weight: bold;
+    
+                    option{
+                        font-weight: bold;
+                    }
+                }
+            }
+        }
+    }
+
+    
+}

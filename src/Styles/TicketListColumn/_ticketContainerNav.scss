@@ -1,0 +1,26 @@
+@mixin displayProps($width,$height,$display){
+    width: $width;
+    height: $height;
+    display: $display;
+}
+
+
+.ticket-container-nav{
+    @include displayProps(inherit,21px,flex );
+    // border-bottom: 1px solid black;
+    margin-top:2px;
+    padding:10px;
+    align-items: center;
+    justify-content: space-around;
+    color: rgb(102, 102, 102);
+    text-transform: uppercase;
+    font-size: 14px;
+    
+    .headings-wrapper{
+        @include displayProps(90%,18px ,flex );
+        justify-content: space-around;
+        border-bottom: 1px solid #b1abab;
+    }
+   
+
+}
