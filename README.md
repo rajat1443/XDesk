@@ -1,2 +1,0 @@
-# XDesk
-Xebai Desk 
