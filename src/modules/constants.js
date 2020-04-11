@@ -1,10 +1,11 @@
+const API_HOST_PATH = 'https://xdesk.herokuapp.com';
+
 export const constants = {
     SUCCESS: 'success',
     FAILURE: 'failure',
-    THIRD_PARTY_API_HOST: 'https://xdesk.herokuapp.com/',
     SERVICE_URLS: {
-        LOGIN: 'ticket-tool/v1/users/login',
-        GET_USERS: 'api/v1/users'
+        LOGIN: `${API_HOST_PATH}/ticket-tool/v1/users/login`,
+        TICKET_LISTING: `${API_HOST_PATH}/ticket-tool/v1/tickets`
     },
     NO_DATA_FOUND: 'No results found...'
 };

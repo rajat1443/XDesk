@@ -1,4 +1,4 @@
-import React from 'react';
+import React from './node_modules/react';
 import valid from '../validating-ticket.png';
 function AddTicket(){
     return(

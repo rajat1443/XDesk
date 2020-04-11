@@ -1,73 +1,51 @@
 import React from 'react';
 import { isEmpty, toString } from 'lodash';
-import xebia_logo from './xebia_logo.png';
-import { Link } from 'react-router-dom';
+import xebiaLogo from '../images/xebia_logo.png';
 
-const LoginView = (payload) => {
+export const loginView = (payload) => {
 
-    const { email, password, onInputChange, onFormSubmit, isValid } = payload;
+    const { email, password, onInputChange, onSubmitHandler, isValid, isLoading } = payload;
 
-    const isDisabledButton = (isEmpty(toString(email)) || isEmpty(toString(password)));
+    const isDisabledButton = ( isEmpty( toString( email ) ) || isEmpty( toString( password ) ) );
 
-    return (<div className="background-container">
-        <div className="container">
-            <div className="form-wrapper">
-                <div className="container-brand-wrapper">
-                    <img src={xebia_logo} alt="nothing going on here" />
+    return (
+        <div className='background-container'>
+            <div className='container'>
+                <div className='form-wrapper'>
+                    <div className='container-brand-wrapper'>
+                        <img src={xebiaLogo} alt='nothing going on here' />
+                    </div>
+                    <div className='vertical-line'></div>
+                    <form onSubmit={ onSubmitHandler }>
+
+                        <div className='heading-wrapper'>
+                            <span id='sign-in-heading'>
+                                Sign in
+                            </span>
+
+                            <span id='text-wrapper'>
+                                to access HDesk
+                            </span>
+                        </div>
+
+                        { isValid ? null : <div className='login-error'><p>Please Enter the Correct Credentials</p></div>}
+                        <div className='input-wrapper'>
+                            <div className='email-input-wrapper'>
+                                <input type='text' placeholder='Username' value={ email }  onChange={ (e) =>  onInputChange( { email: e.currentTarget.value } )}
+                                />
+                            </div>
+
+                            <div className='password-input-wrapper'>
+                                <input type='password' placeholder='Password' value={ password } onChange={ (e) =>  onInputChange( { password: e.currentTarget.value } )}
+                                />
+                            </div>
+                            <div className='button-wrapper'>
+                                <button type='submit' disabled={isDisabledButton || isLoading }>{ isLoading ? 'Loading...' : 'Submit' }</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div className="vertical-line"></div>
-                <form onSubmit={onFormSubmit}>
-
-                    <div className="heading-wrapper">
-                        <span id="sign-in-heading">
-                            Sign in
-                        </span>
-
-                        <span id="text-wrapper">
-                            to access HDesk
-                        </span>
-                    </div>
-
-                    {isValid ? null : <div className="login-error"><p>Please Enter the Correct Credentials</p></div>}
-                    <div className="input-wrapper">
-                        <div className="email-input-wrapper">
-                            <input
-                                type="text"
-                                placeholder="Username"
-                                id="email"
-                                onChange={(e) => {
-                                    onInputChange(
-                                        { email: e.currentTarget.value }
-                                    )
-                                }
-                                }
-                            />
-                        </div>
-
-                        <div className="password-input-wrapper">
-                            <input
-                                type="text"
-                                id="password"
-                                placeholder="Password"
-                                onChange={
-                                    (e) => {
-                                        onInputChange(
-                                            { password: e.currentTarget.value }
-                                        )
-                                    }
-                                }
-                            />
-                        </div>
-                        <div className="button-wrapper">
-                            <Link to='/TicketList'>
-                                <input type="submit" id="login-form-submit" value="Submit" disabled={isDisabledButton} />
-                            </Link>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
-    )
+    );
 }
-export default LoginView;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-function TicketListColumn(){
+export const sidebarView = () => {
     return(
         <div className="Column-container">
             <div className="column-HQ-icon-wrapper">
@@ -35,6 +35,4 @@ function TicketListColumn(){
 
         </div>
     );
-}
-
-export default TicketListColumn;
+};

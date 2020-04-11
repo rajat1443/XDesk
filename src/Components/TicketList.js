@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import TicketListNav from '../Views/TicketListNav';
-import TicketListColumn from '../Views/TicketListColumn';
-import TicketListView from '../Views/TicketListView';
+import TicketListNav from '../views/headerView';
+import TicketListColumn from '../views/sidebarView';
+import TicketListView from '../views/ticketListingView';
 import axios from 'axios';
 
 
