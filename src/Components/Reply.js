@@ -1,15 +1,15 @@
-import React,{Component} from 'react';
-import TicketReplyNav from '../Views/TicketReplyNav';
-import TicketReplyBottomContainer from '../Views/TicketReplyBottomContainer';
+import React, { Component } from 'react';
+import TicketReplyNav from '../Views/ticketReplyNav';
+import TicketReplyBottomContainer from '../Views/ticketReplyBottomContainer';
 
-class Reply extends Component{
+class Reply extends Component {
     render() {
         return (
             <div className="Ticket-Reply-Container">
-            <TicketReplyNav />
-            <TicketReplyBottomContainer />
+                <TicketReplyNav />
+                <TicketReplyBottomContainer />
             </div>
-            
+
         )
     }
 }

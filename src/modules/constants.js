@@ -5,7 +5,8 @@ export const constants = {
     FAILURE: 'failure',
     SERVICE_URLS: {
         LOGIN: `${API_HOST_PATH}/ticket-tool/v1/users/login`,
-        TICKET_LISTING: `${API_HOST_PATH}/ticket-tool/v1/tickets`
+        TICKET_LISTING: `${API_HOST_PATH}/ticket-tool/v1/tickets`,
+        TICKET_DETAILING: `${API_HOST_PATH}/ticket-tool/v1/tickets`
     },
     NO_DATA_FOUND: 'No results found...'
 };

@@ -1,13 +1,35 @@
 import React from 'react';
-import TikcetListNav from './TicketListNav';
-import arrow from '../Icons/arrow.png'
+// import TikcetListNav from './TicketListNav';
+import arrow from '../images/arrow.png';
 // import TicketDetails from '../Components/TicketDetails';
 
-function ticketView(){
-    return(
+const ticketView = (payload) => {
+    const { ticketData } = payload;
+    console.log(ticketData);
+
+    const creationTime = new Date(ticketData.creationTime);
+    const dueOn = new Date(ticketData.dueOn)
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+    month[2] = "March";
+    month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+    month[6] = "July";
+    month[7] = "August";
+    month[8] = "September";
+    month[9] = "October";
+    month[10] = "November";
+    month[11] = "December";
+    var creationMonth = month[creationTime.getMonth()];
+
+    var dueOnMonth = month[dueOn.getMonth()];
+
+    return (
         <div className="TicketDetails-container">
             <div className="ticket-details-nav-wrapper">
-                <TikcetListNav/>
+                {/* <TikcetListNav /> */}
             </div>
             <div className="ticket-details-bottom-container">
                 <div className="all-tickets-wrapper">
@@ -19,50 +41,51 @@ function ticketView(){
                             All Tickets
                         </div>
                     </div>
-                        <div className="ticket-snapshot-wrapper">
-                           
-                            <div className="snapshot-heading-wrapper">
-                                <i class="fa fa-globe"><span className="date-text">12 Feb</span></i>
-                                <span>Mayank Mahajan</span>
-                            </div>
-                            <div className="ticket-snapshot-information-wrapper">
-                               <p> Ticket Details Come Here Helod dkcaadmc
-                                djdnca
-                                cnk cacnjalcackla
-                                </p> 
-                            </div>
+                    <div className="ticket-snapshot-wrapper">
+
+                        <div className="snapshot-heading-wrapper">
+                            <i className="fa fa-globe">
+                                <span className="date-text">
+                                    {creationTime.getDay() + ' ' + creationMonth}
+                                </span>
+                            </i>
+                            <span>{ticketData.emailId}</span>
                         </div>
+                        <div className="ticket-snapshot-information-wrapper">
+                            <p> {ticketData.subject}</p>
+                        </div>
+                    </div>
                 </div>
                 <div className="ticket-brief-wrapper">
                     <div className="ticket-brief-heading-wrapper">
                         <div className="ticket-brief-heading-horizontal-line-wrapper"></div>
-                        <h3> Mayank Mahajan  <i class="fa fa-globe">
-                            <span className="date-text">12 Feb</span></i>
+                        <h3> {ticketData.emailId} <i className="fa fa-globe">
+                            <span className="date-text">{creationTime.getDay() + ' ' + creationMonth}</span></i>
                         </h3>
-                        <span>xyz@xebia.com</span>
+                        <span>{ticketData.emailId}</span>
                         <span>Phone No. Comes here</span>
                     </div>
 
                     <div className="ticket-brief-information-wrapper">
                         <div className="assigned-officer-wrapper">
-                            <span>Assigned To</span> 
+                            <span>Assigned To</span>
                             <div className="profile-wrapper">
                                 <div className="profile-picture-wrapper">
                                 </div>
-                                <span>Karan Verma</span>
-                            </div> 
+                                <span>{ticketData.assignedTo}</span>
+                            </div>
                         </div>
 
                         <div className="status-wrapper">
                             <span>Status</span>
                             <select className="ticket-brief-status-select-wrapper">
-                                <option selected>Closed</option>
+                                <option selected>{ticketData.status}</option>
                             </select>
                         </div>
 
                         <div className="closed-time-wrapper">
                             <span>Closed Time</span>
-                            <span className="date-time-wrapper"> 12 Feb time</span>
+                            <span className="date-time-wrapper"> {dueOn.getDay() + ' ' + dueOnMonth}</span>
                         </div>
 
                         <div className="ticket-information-heading-wrapper">
@@ -71,7 +94,7 @@ function ticketView(){
 
                         <div className="ticket-brief-location-wrapper">
                             <span className="red-text">Location</span>
-                            <span className="city-text">Gurgaon</span>
+                            <span className="city-text">{ticketData.location}</span>
                         </div>
 
                         <div className="ticket-brief-phone-wrapper">
@@ -86,17 +109,17 @@ function ticketView(){
 
                         <div className="ticket-brief-sub-issue-wrapper">
                             <span className="red-text">Sub Issue</span>
-                            <span>Human Resource</span>
+                            <span>{ticketData.department}</span>
                         </div>
 
                         <div className="ticket-brief-classifications-wrapper">
                             <span>Classifications</span>
-                            <span>Problem</span>
+                            <span>{ticketData.classification}</span>
                         </div>
 
                         <div className="ticket-brief-priority-wrapper">
                             <span>Priority</span>
-                            <span>-None-</span>
+                            <span>{ticketData.subIssue}</span>
                         </div>
 
                         <div className="ticket-brief-product-name-wrapper">
@@ -107,9 +130,9 @@ function ticketView(){
 
                 </div>
                 <div className="selected-ticket-details-wrapper">
-                    
+
                 </div>
-                
+
             </div>
         </div>
     )

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export const headerView = ( payload ) => {
+export const headerView = (payload) => {
 
     const { onClickLogout } = payload;
 
@@ -55,7 +55,7 @@ export const headerView = ( payload ) => {
                 <div className="navbar-settings-icon-wrapper">
                     <i className="fa fa-gear font-size:24px"></i>
                 </div>
-                <div onClick={ onClickLogout } className="profile-picture-wrapper">
+                <div onClick={onClickLogout} className="profile-picture-wrapper">
                     <div className="no-display-div-container">
                         <div className="logout-container">
                             <p>Logout</p>

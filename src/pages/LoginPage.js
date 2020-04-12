@@ -2,12 +2,12 @@ import React from 'react';
 import { cloneDeep } from 'lodash';
 import { constants } from '../modules/constants';
 import { fetch } from '../modules/httpServices';
-import { loginView as LoginView } from '../views/loginView';
+import { loginView as LoginView } from '../Views/loginView';
 
 export default class LoginPage extends React.Component {
 
-    constructor( props ) {
-        super( props );
+    constructor(props) {
+        super(props);
         this.state = {
             isLoading: false,
             email: '',
@@ -17,53 +17,53 @@ export default class LoginPage extends React.Component {
     }
 
     componentDidMount() {
-        this.redirectDashboardPage();
+        this.redirectTicketList();
     }
 
-    onInputChange = ( payload ) => {
-        this.setState( { ...this.state, ...payload } );
+    onInputChange = (payload) => {
+        this.setState({ ...this.state, ...payload });
     }
 
-    onSubmitHandler = ( e ) => {
+    onSubmitHandler = (e) => {
         e.preventDefault();
 
         const { email, password } = this.state;
 
-        this.setState( { isLoading: true }, () => {
+        this.setState({ isLoading: true }, () => {
 
-            fetch.post( {
+            fetch.post({
                 url: constants.SERVICE_URLS.LOGIN,
                 requestBody: {
                     email,
                     password
                 },
-                callbackHandler: ( response ) => {
-    
+                callbackHandler: (response) => {
+
                     const { status, message, payload } = response;
-                    const _state = cloneDeep( this.state );
+                    const _state = cloneDeep(this.state);
                     _state.isLoading = false;
-    
-                    if( status === constants.SUCCESS ) {
+
+                    if (status === constants.SUCCESS) {
                         _state.message = '';
                         _state.isValid = true;
-                        window.localStorage.setItem('_token', payload.token );
-                        window.localStorage.setItem('_userInfo', JSON.stringify( payload.result ) );
+                        window.localStorage.setItem('_token', payload.token);
+                        window.localStorage.setItem('_userInfo', JSON.stringify(payload.result));
                     } else {
                         _state.message = message;
                         _state.isValid = false;
                         window.localStorage.removeItem('_token');
                     }
-    
-                    this.setState( _state, this.redirectDashboardPage );
-    
-    
-                }
-            } );
 
-        } );
+                    this.setState(_state, this.redirectTicketList);
+
+
+                }
+            });
+
+        });
     }
 
-    redirectDashboardPage = () => {
+    redirectTicketList = () => {
         const token = window.localStorage.getItem('_token');
         if (token != null) {
             this.props.history.push('/ticketlist');
@@ -71,13 +71,13 @@ export default class LoginPage extends React.Component {
     }
 
     render() {
-        return(
-            <LoginView 
-                { ...{
+        return (
+            <LoginView
+                {...{
                     ...this.state,
                     onInputChange: this.onInputChange,
                     onSubmitHandler: this.onSubmitHandler
-                } }
+                }}
             />
         );
     }

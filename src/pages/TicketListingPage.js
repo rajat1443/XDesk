@@ -2,12 +2,12 @@ import React from 'react';
 import { cloneDeep } from 'lodash';
 import { constants } from '../modules/constants';
 import { fetch } from '../modules/httpServices';
-import { ticketListingView as TicketListingView } from '../views/ticketListingView';
+import { ticketListingView as TicketListingView } from '../Views/ticketListingView';
 
-export default class TicketListingPage extends React.Component{
+export default class TicketListingPage extends React.Component {
 
-    constructor( props ) {
-        super( props );
+    constructor(props) {
+        super(props);
         this.state = {
             isLoading: true,
             listingData: []
@@ -17,21 +17,21 @@ export default class TicketListingPage extends React.Component{
     componentDidMount() {
         this.getTicketData();
     }
-    
+
     getTicketData = () => {
-        fetch.get( {
+        fetch.get({
             url: constants.SERVICE_URLS.TICKET_LISTING,
             requestParams: {
                 page: 0,
                 limit: 10
             },
-            callbackHandler: ( response ) => {
-
+            callbackHandler: (response) => {
+                console.log(response)
                 const { status, message, payload } = response;
-                const _state = cloneDeep( this.state );
+                const _state = cloneDeep(this.state);
                 _state.isLoading = false;
 
-                if( status === constants.SUCCESS ) {
+                if (status === constants.SUCCESS) {
                     _state.message = '';
                     _state.listingData = payload.result.tickets;
 
@@ -39,16 +39,16 @@ export default class TicketListingPage extends React.Component{
                     _state.message = message;
                 }
 
-                this.setState( _state );
+                this.setState(_state);
 
             }
-        } );
+        });
     }
 
     render() {
-        return(
+        return (
             <TicketListingView
-                { ...this.state }
+                {...this.state}
             />
         );
 

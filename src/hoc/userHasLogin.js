@@ -1,12 +1,12 @@
 import React from 'react';
-import { headerView as HeaderView } from '../views/headerView';
-import { sidebarView as SidebarView } from '../views/sidebarView';
+import { headerView as HeaderView } from '../Views/headerView';
+import { sidebarView as SidebarView } from '../Views/sidebarView';
 
-export const userHasLogin = ( WrapperView ) => {
-    return class UserHasLogin extends React.Component{
+export const userHasLogin = (WrapperView) => {
+    return class UserHasLogin extends React.Component {
 
-        constructor( props ) {
-            super( props );
+        constructor(props) {
+            super(props);
         }
 
         onClickLogout = () => {
@@ -20,16 +20,16 @@ export const userHasLogin = ( WrapperView ) => {
                 this.props.history.push('/');
             }
         }
-        
+
         render() {
-            return(
+            return (
                 <div className="TicketListContainer">
-                    <HeaderView 
-                        onClickLogout={ this.onClickLogout }
+                    <HeaderView
+                        onClickLogout={this.onClickLogout}
                     />
                     <div className="bottom-container">
                         <SidebarView />
-                        <WrapperView { ...this.props } />
+                        <WrapperView {...this.props} />
                     </div>
                 </div>
             );
