@@ -1,7 +1,9 @@
-import React from './node_modules/react';
-import valid from '../validating-ticket.png';
-function AddTicket(){
-    return(
+import React from 'react';
+import valid from '../images/validating-ticket.png';
+
+
+function AddTicket() {
+    return (
         <div className="add-tickets-bottom-wrapper">
             <div className="add-ticket-heading-wrapper">
                 <div className="add-ticket-icon-wrapper">
@@ -10,12 +12,12 @@ function AddTicket(){
                 <div className="add-ticket-text-wrapper">
                     <h1>Add Ticket</h1>
                     <select id="template-selector">
-                    <option  selected>  Choose ticket template </option>
+                        <option selected>  Choose ticket template </option>
                     </select>
                 </div>
             </div>
 
-            
+
             <div className="add-ticket-form-wrapper">
                 <form>
                     <div className="ticket-information-text-wrapper">
@@ -53,13 +55,13 @@ function AddTicket(){
                                 <option defaultValue="none" selected >-None-</option>
                             </select>
                         </div>
-                        
+
                     </div>
 
                     <div className="department-sub-issue-wrapper">
                         <div className="label-wrapper extra-issue">
-                                <label className="red-text"> Department</label>
-                                <label className="red-text"> Sub Issue</label>
+                            <label className="red-text"> Department</label>
+                            <label className="red-text"> Sub Issue</label>
                         </div>
 
                         <div className="input-wrapper">
@@ -71,22 +73,22 @@ function AddTicket(){
                                 <option defaultValue="none" selected >-None-</option>
                             </select>
                         </div>
-                        
-                       
+
+
                     </div>
 
                     <div className="subject-wrapper">
                         <div className="label-wrapper">
-                                <label>Subject</label>
+                            <label>Subject</label>
                         </div>
 
                         <div className="input-wrapper">
                             <input type="text" name="Subject" id="subject" />
-                        </div>                        
+                        </div>
                     </div>
 
                     <div className="classification-priority-wrapper">
-                         <div className="label-wrapper extra-priority">
+                        <div className="label-wrapper extra-priority">
                             <label> Classification</label>
                             <label> Priority</label>
                         </div>
@@ -104,7 +106,7 @@ function AddTicket(){
 
                     <div className="description-wrapper">
                         <div className="label-wrapper">
-                             <label> Description</label>
+                            <label> Description</label>
                         </div>
 
                         <div className="input-wrapper">
@@ -134,7 +136,7 @@ function AddTicket(){
                     </div>
                 </form>
             </div>
-            
+
         </div>
     )
 }

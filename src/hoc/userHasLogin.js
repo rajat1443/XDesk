@@ -28,7 +28,7 @@ export const userHasLogin = (WrapperView) => {
                         onClickLogout={this.onClickLogout}
                     />
                     <div className="bottom-container">
-                        <SidebarView />
+
                         <WrapperView {...this.props} />
                     </div>
                 </div>

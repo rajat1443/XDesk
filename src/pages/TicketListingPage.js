@@ -3,6 +3,7 @@ import { cloneDeep } from 'lodash';
 import { constants } from '../modules/constants';
 import { fetch } from '../modules/httpServices';
 import { ticketListingView as TicketListingView } from '../Views/ticketListingView';
+import { sidebarView } from '../Views/sidebarView'
 
 export default class TicketListingPage extends React.Component {
 
@@ -26,7 +27,7 @@ export default class TicketListingPage extends React.Component {
                 limit: 10
             },
             callbackHandler: (response) => {
-                console.log(response)
+                // console.log(response)
                 const { status, message, payload } = response;
                 const _state = cloneDeep(this.state);
                 _state.isLoading = false;
@@ -47,9 +48,12 @@ export default class TicketListingPage extends React.Component {
 
     render() {
         return (
-            <TicketListingView
-                {...this.state}
-            />
+            <React.Fragment>
+                <sidebarView />
+                <TicketListingView
+                    {...this.state}
+                />
+            </React.Fragment>
         );
 
     }

@@ -30,7 +30,6 @@ export default class LoginPage extends React.Component {
         const { email, password } = this.state;
 
         this.setState({ isLoading: true }, () => {
-
             fetch.post({
                 url: constants.SERVICE_URLS.LOGIN,
                 requestBody: {
@@ -41,6 +40,7 @@ export default class LoginPage extends React.Component {
 
                     const { status, message, payload } = response;
                     const _state = cloneDeep(this.state);
+                    console.log(_state)
                     _state.isLoading = false;
 
                     if (status === constants.SUCCESS) {

@@ -1,13 +1,21 @@
 import React from 'react';
 // import TikcetListNav from './TicketListNav';
 import arrow from '../images/arrow.png';
+import globe from '../images/globe.png';
+import clock from '../images/clock.png';
+import chat from '../images/chat.png';
+import { Link } from 'react-router-dom';
+import reply from '../images/reply.png';
+import replyContainer from './replyContainerView';
 // import TicketDetails from '../Components/TicketDetails';
 
 const ticketView = (payload) => {
-    const { ticketData } = payload;
-    console.log(ticketData);
 
+    const { ticketData, ticketReplies } = payload;
+    const currentTime = Date.now()
     const creationTime = new Date(ticketData.creationTime);
+    const daysBetween = new Date(currentTime - ticketData.creationTime);
+
     const dueOn = new Date(ticketData.dueOn)
     var month = new Array();
     month[0] = "January";
@@ -25,6 +33,18 @@ const ticketView = (payload) => {
     var creationMonth = month[creationTime.getMonth()];
 
     var dueOnMonth = month[dueOn.getMonth()];
+
+    let isHidden = 'none'
+
+    const toggleReplyDisplay = () => {
+        if (isHidden === 'none') {
+            isHidden = 'block';
+        } else {
+            isHidden = 'none';
+        }
+        console.log(isHidden)
+    }
+
 
     return (
         <div className="TicketDetails-container">
@@ -79,7 +99,7 @@ const ticketView = (payload) => {
                         <div className="status-wrapper">
                             <span>Status</span>
                             <select className="ticket-brief-status-select-wrapper">
-                                <option selected>{ticketData.status}</option>
+                                <option defaultValue>{ticketData.status}</option>
                             </select>
                         </div>
 
@@ -130,11 +150,65 @@ const ticketView = (payload) => {
 
                 </div>
                 <div className="selected-ticket-details-wrapper">
+                    <div className="selected-ticket-header-wrapper">
+                        <div className="web-icon-wrapper">
+                            <img src={globe} alt="globe image here" width="30px" height="30px" />
+                        </div>
+                        <div className="selected-ticket-heading-wrapper">
+                            <div className="id-and-subject-wrapper">
+                                <div className="subject-left-side-wrapper">
+                                    <p>{'#' + ticketData.id} {ticketData.subject}</p>
+                                </div>
+                                <div className="subject-right-side-wrapper">
+                                    <img className="reply-image" src={reply} alt="nothing here" width="30px" height="30px" onClick={toggleReplyDisplay} />
+                                    <Link to={'/replies/' + ticketData.id}>
+                                        <img className="chat-image" src={chat} alt="nothing here" width="30px" height="30px" />
+                                    </Link>
+                                </div>
+                            </div>
+                            <div className="time-wrapper">
+                                <img src={clock} alt="clock icon here" width="15px" height="15px" />
+                                <p>{creationTime.getDay() + ' ' + creationMonth}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="ticket-details-sub-nav-wrapper">
+                        <div className="conversation-wrapper">Conversation</div>
+                        <div className="resolution-wrappe">resolution</div>
+                        <div className="time-entry-wrapper">time-entry</div>
+                        <div className="attachment-wrapper">attachment</div>
+                        <div className="activity-wrapper">activity</div>
+                        <div className="approval-wrapper">approval</div>
+                        <div className="history-wrapper">history</div>
+                    </div>
+                    <div className="total-ticket-details-wrapper">
+                        <form>
+                            <textarea rows="10" cols="50"></textarea>
+                            <button>submit</button>
+                        </form>
+                        <div className="name-wrapper">
+                            <p className="username-wrapper">{ticketData.emailId} <span className="details-date-wrapper">{creationTime.getDay() + ' ' + creationMonth} {}</span></p> <br />
+                            <p className="ticket-description">{ticketData.description}</p>
+                        </div>
+                        <div className="replies-wrapper">
+                            <h1>Replies</h1>
 
+                            {ticketReplies ?
+                                ticketReplies.map((reply) => {
+
+                                    return (
+                                        <div className="reply-wrapper" key={reply.id}>
+                                            {reply.text}
+                                        </div>
+                                    )
+                                })
+                                : console.log('nothing here')}
+                        </div>
+                    </div>
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -46,7 +46,7 @@ export const ticketListingView = (payload) => {
                     const creationTime = new Date(list.creationTime);
                     const dueOn = new Date(list.dueOn);
                     return (
-                        <Link to={'/ticketDetails/' + list.id}> <div className="ticket-table-info-wrapper" key={list.id}>
+                        <Link to={'/ticketlist/' + list.id}> <div className="ticket-table-info-wrapper" key={list.id}>
                             <div className="select-all-checkbox">
                                 <input type="checkbox" />
                             </div>

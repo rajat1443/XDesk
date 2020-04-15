@@ -1,8 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const TicketReplyBottomContainer = () => {
+const TicketReplyBottomContainer = (payload) => {
+    const { handleChange, handleSubmit, props } = payload;
+
     const currentDate = new Date();
-    return(
+    return (
         <div className="ticket-reply-bottom-container">
             <div className="search-field-wrapper">
                 <div className="search-field-text-wrapper">
@@ -20,43 +23,43 @@ const TicketReplyBottomContainer = () => {
                     </div>
 
                     <div className="date-reply-comment-wrapper">
-                        
-                            <div className="reply-wrapper-left-side">
-                                <div className="date-time-wrapper">
+
+                        <div className="reply-wrapper-left-side">
+                            <div className="date-time-wrapper">
                                 {currentDate.toDateString()}
-                                </div>
                             </div>
+                        </div>
 
-                            <div className="reply-wrapper-right-side">
-                                
-                                <div className="reply-child-left-side">
-                                <i class="fa fa-reply"></i>
+                        <div className="reply-wrapper-right-side">
+
+                            <div className="reply-child-left-side">
+                                <i className="fa fa-reply"></i>
                                 <p>Reply</p>
-                                </div>
-
-                                <div className="reply-child-right-side">
-                                    <i class="fa fa-comment"></i>
-                                    <p>Comment</p>
-                                </div>
                             </div>
-                        
+
+                            <div className="reply-child-right-side">
+                                <i className="fa fa-comment"></i>
+                                <p>Comment</p>
+                            </div>
+                        </div>
+
                     </div>
 
-                    
+
                     <div className="comment-box-wrapper">
                         <div className="sqaure-profile-identifier-wrapper"></div>
-                        <textarea form="reply-form" id="reply" cols="50" rows="8"></textarea>
+                        <textarea form="reply-form" id="reply" cols="50" rows="8" onChange={(e) => { handleChange(e.target.value) }}></textarea>
                     </div>
                     <div className="ticket-reply-form-wrapper">
-                            <form id="reply-form">                        
+                        <form id="reply-form" onSubmit={handleSubmit} >
                             <div className="attach-file-wrapper">
-                                <i class="material-icons">attachment</i>
+                                <i className="material-icons">attachment</i>
                                 <p>Attach a File <span className="black-text">(Upto 20 MB)</span></p>
                             </div>
                             <div className="buttons-wrapper">
                                 <input type="submit" value="Send" />
                                 <button> Save Draft</button>
-                                
+
                                 <span className="cancel-wrapper">
                                     <button> Cancel </button>
                                 </span>
@@ -64,12 +67,13 @@ const TicketReplyBottomContainer = () => {
                         </form>
                     </div>
                 </div>
-            
-            <div className="ticket-reply-bottom-container-right-side">
-                
-            <div className="ticket-brief-information-wrapper">
+
+                <div className="ticket-reply-bottom-container-right-side">
+
+                    <div className="ticket-brief-information-wrapper">
                         <div className="add-ticket-button">
-                            <button>Add Ticket</button>
+                            {console.log(props)}
+                            <Link to={'/ticketList/' + props.match.params.ticket_id}> <button>Go To Ticket</button> </Link>
                         </div>
 
                         <div className="edit-ticket-properties-wrapper">
@@ -77,18 +81,18 @@ const TicketReplyBottomContainer = () => {
                             <a>Edit</a>
                         </div>
                         <div className="assigned-officer-wrapper">
-                            <span>Assigned To</span> 
+                            <span>Assigned To</span>
                             <div className="profile-wrapper">
                                 <div className="profile-picture-wrapper">
                                 </div>
                                 <span>Karan Verma</span>
-                            </div> 
+                            </div>
                         </div>
 
                         <div className="status-wrapper">
                             <span>Status</span>
                             <select className="ticket-brief-status-select-wrapper">
-                                <option selected>Closed</option>
+                                <option defaultValue>Closed</option>
                             </select>
                         </div>
 
@@ -139,8 +143,8 @@ const TicketReplyBottomContainer = () => {
 
                 </div>
             </div>
-            </div>
-        
+        </div >
+
     )
 }
 
