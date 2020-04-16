@@ -41,7 +41,6 @@ export const ticketListingView = (payload) => {
                 </div>
             </div>
             {
-
                 listingData.map((list) => {
                     const creationTime = new Date(list.creationTime);
                     const dueOn = new Date(list.dueOn);

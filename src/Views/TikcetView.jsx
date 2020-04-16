@@ -7,11 +7,12 @@ import chat from '../images/chat.png';
 import { Link } from 'react-router-dom';
 import reply from '../images/reply.png';
 import replyContainer from './replyContainerView';
+import { constants } from '../modules/constants';
 // import TicketDetails from '../Components/TicketDetails';
 
 const ticketView = (payload) => {
 
-    const { ticketData, ticketReplies } = payload;
+    const { ticketData, ticketReplies, changeSelectValue } = payload;
     const currentTime = Date.now()
     const creationTime = new Date(ticketData.creationTime);
     const daysBetween = new Date(currentTime - ticketData.creationTime);
@@ -43,6 +44,9 @@ const ticketView = (payload) => {
             isHidden = 'none';
         }
         console.log(isHidden)
+    }
+    const hello = () => {
+        alert('hello');
     }
 
 
@@ -92,6 +96,11 @@ const ticketView = (payload) => {
                             <div className="profile-wrapper">
                                 <div className="profile-picture-wrapper">
                                 </div>
+                                <select value='HR' onChange={(e) => { changeSelectValue(e.target.value) }}>
+                                    <option value='admin@xebia.com'>Admin</option>
+                                    <option value='hr@xebia.com'>HR</option>
+                                    <option value='finance@xebia.com'>Finance</option>
+                                </select>
                                 <span>{ticketData.assignedTo}</span>
                             </div>
                         </div>

@@ -17,9 +17,7 @@ class TicketDetails extends Component {
 
     componentDidMount() {
         const div = document.querySelector('chat-image');
-
         let id = this.props.match.params.ticket_id;
-
         this.getTicketInfo(id)
 
     }
@@ -30,7 +28,7 @@ class TicketDetails extends Component {
             callbackHandler: (response) => {
                 const { status, message, payload } = response;
                 const _state = cloneDeep(this.state);
-                // console.log(response)
+                console.log(response)
 
                 if (status === constants.SUCCESS) {
                     _state.message = '';
@@ -64,21 +62,28 @@ class TicketDetails extends Component {
         })
     }
 
-    toggleReplyDisplay = () => {
-        if (this.state.isHidden === 'none') {
-            this.setState({ isHidden: 'block' })
-        } else {
-            this.setState({ isHidden: 'none' })
-        }
-        console.log('hello');
+
+    changeSelectValue = (selectValue) => {
+        const id = this.props.match.params.ticket_id;
+        fetch.put({
+            url: constants.SERVICE_URLS.TICKET_ASSIGN + '/' + id + '?emailId=hr@xebia.com',
+            requestParams: {
+                emailId: selectValue
+            },
+            callbackHandler: (response) => {
+                console.log(response);
+
+            }
+        })
     }
 
+
     render() {
-        ;
         return (
             <TicketView
                 {...this.state}
-                toggleReplyDisplay={this.toggleReplyDisplay} />
+                toggleReplyDisplay={this.toggleReplyDisplay}
+                changeSelectValue={this.changeSelectValue} />
         )
     }
 }

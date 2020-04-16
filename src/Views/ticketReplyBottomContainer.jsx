@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import avatar from '../images/avatar.png';
 
 const TicketReplyBottomContainer = (payload) => {
-    const { handleChange, handleSubmit, props } = payload;
-
+    const { handleChange, handleSubmit, props, ticketData, replies } = payload;
+    console.log(replies)
+    const dueOn = new Date(ticketData.dueOn);
     const currentDate = new Date();
     return (
         <div className="ticket-reply-bottom-container">
@@ -21,58 +23,74 @@ const TicketReplyBottomContainer = (payload) => {
                     <div className="ticket-heading">
                         <h2>Test</h2>
                     </div>
+                    <div className="left-side-second-container">
+                        <div className="date-reply-comment-wrapper">
 
-                    <div className="date-reply-comment-wrapper">
+                            <div className="reply-wrapper-left-side">
+                                <div className="date-time-wrapper">
+                                    {currentDate.toDateString()}
+                                </div>
+                            </div>
 
-                        <div className="reply-wrapper-left-side">
-                            <div className="date-time-wrapper">
-                                {currentDate.toDateString()}
+                            <div className="reply-wrapper-right-side">
+
+                                <div className="reply-child-left-side">
+                                    <i className="fa fa-reply"></i>
+                                    <p>Reply</p>
+                                </div>
+
+                                <div className="reply-child-right-side">
+                                    <i className="fa fa-comment"></i>
+                                    <p>Comment</p>
+                                </div>
                             </div>
                         </div>
-
-                        <div className="reply-wrapper-right-side">
-
-                            <div className="reply-child-left-side">
-                                <i className="fa fa-reply"></i>
-                                <p>Reply</p>
-                            </div>
-
-                            <div className="reply-child-right-side">
-                                <i className="fa fa-comment"></i>
-                                <p>Comment</p>
-                            </div>
+                        <div className="comment-box-wrapper">
+                            <div className="sqaure-profile-identifier-wrapper"></div>
+                            <textarea form="reply-form" id="reply" cols="50" rows="8" onChange={(e) => { handleChange(e.target.value) }}></textarea>
                         </div>
+                        <div className="ticket-reply-form-wrapper">
+                            <form id="reply-form" onSubmit={handleSubmit} >
+                                <div className="attach-file-wrapper">
+                                    <i className="material-icons">attachment</i>
+                                    <p>Attach a File <span className="black-text">(Upto 20 MB)</span></p>
+                                </div>
+                                <div className="buttons-wrapper">
+                                    <input type="submit" value="Send" data-hover="click me" />
+                                    <button> Save Draft</button>
 
+                                    <span className="cancel-wrapper">
+                                        <button> Cancel </button>
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
                     </div>
+                    <div className="ticket-replies-wrapper">
+                        {
+                            replies.map((reply) => {
+                                const replyCreatedOn = new Date(reply.createdOn);
 
-
-                    <div className="comment-box-wrapper">
-                        <div className="sqaure-profile-identifier-wrapper"></div>
-                        <textarea form="reply-form" id="reply" cols="50" rows="8" onChange={(e) => { handleChange(e.target.value) }}></textarea>
-                    </div>
-                    <div className="ticket-reply-form-wrapper">
-                        <form id="reply-form" onSubmit={handleSubmit} >
-                            <div className="attach-file-wrapper">
-                                <i className="material-icons">attachment</i>
-                                <p>Attach a File <span className="black-text">(Upto 20 MB)</span></p>
-                            </div>
-                            <div className="buttons-wrapper">
-                                <input type="submit" value="Send" />
-                                <button> Save Draft</button>
-
-                                <span className="cancel-wrapper">
-                                    <button> Cancel </button>
-                                </span>
-                            </div>
-                        </form>
+                                return (
+                                    <div className="individual-reply-wrapper" key={reply.id}>
+                                        <div className="reply-heading-wrapper">
+                                            <div className="profile-wrapper"></div>
+                                            <span className="reply-createdOn-wrapper"> {replyCreatedOn.getHours()} : {replyCreatedOn.getMinutes()} : {replyCreatedOn.getSeconds()} </span>
+                                        </div>
+                                        <div className="reply-text-wrapper">{reply.text}</div>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                 </div>
+
 
                 <div className="ticket-reply-bottom-container-right-side">
 
                     <div className="ticket-brief-information-wrapper">
                         <div className="add-ticket-button">
-                            {console.log(props)}
+                            {/* {console.log(props)} */}
                             <Link to={'/ticketList/' + props.match.params.ticket_id}> <button>Go To Ticket</button> </Link>
                         </div>
 
@@ -85,20 +103,23 @@ const TicketReplyBottomContainer = (payload) => {
                             <div className="profile-wrapper">
                                 <div className="profile-picture-wrapper">
                                 </div>
-                                <span>Karan Verma</span>
+                                <span>{ticketData.assignedTo}</span>
                             </div>
                         </div>
 
                         <div className="status-wrapper">
                             <span>Status</span>
-                            <select className="ticket-brief-status-select-wrapper">
-                                <option defaultValue>Closed</option>
-                            </select>
+                            <span>{ticketData.status}</span>
+                            {/* <option value="CLOSED">Closed</option>
+                                <option value="OPEN">Open</option>
+                            </select> */}
                         </div>
 
                         <div className="closed-time-wrapper">
                             <span>Closed Time</span>
-                            <span className="date-time-wrapper"> 12 Feb time</span>
+                            <span className="date-time-wrapper">
+                                {dueOn.getDay() + ' ' + dueOn.toLocaleString('default', { month: 'long' })}
+                            </span>
                         </div>
 
                         <div className="ticket-information-heading-wrapper">
@@ -107,7 +128,7 @@ const TicketReplyBottomContainer = (payload) => {
 
                         <div className="ticket-brief-location-wrapper">
                             <span className="red-text">Location</span>
-                            <span className="city-text">Gurgaon</span>
+                            <span className="city-text">{ticketData.location}</span>
                         </div>
 
                         <div className="ticket-brief-phone-wrapper">
@@ -117,17 +138,17 @@ const TicketReplyBottomContainer = (payload) => {
 
                         <div className="ticket-brief-department-wrapper">
                             <span className="red-text">Department</span>
-                            <span>Human Resource</span>
+                            <span>{ticketData.department}</span>
                         </div>
 
                         <div className="ticket-brief-sub-issue-wrapper">
                             <span className="red-text">Sub Issue</span>
-                            <span>Human Resource</span>
+                            <span>{ticketData.subIssue}</span>
                         </div>
 
                         <div className="ticket-brief-classifications-wrapper">
                             <span>Classifications</span>
-                            <span>Problem</span>
+                            <span>{ticketData.classification}</span>
                         </div>
 
                         <div className="ticket-brief-priority-wrapper">
@@ -138,12 +159,10 @@ const TicketReplyBottomContainer = (payload) => {
                         <div className="ticket-brief-product-name-wrapper">
                             <span>Product Name</span>
                         </div>
-
                     </div>
-
                 </div>
             </div>
-        </div >
+        </div>
 
     )
 }

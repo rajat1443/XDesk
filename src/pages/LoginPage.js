@@ -37,7 +37,7 @@ export default class LoginPage extends React.Component {
                     password
                 },
                 callbackHandler: (response) => {
-
+                    console.log(response)
                     const { status, message, payload } = response;
                     const _state = cloneDeep(this.state);
                     console.log(_state)
