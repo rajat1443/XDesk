@@ -23,13 +23,15 @@ a{
     .headings-wrapper{
         font-size: 10px;
         @include displayProps(100%,18px ,flex );
-        justify-content: space-around;
+        justify-content: space-evenly;
         align-items: flex-start;
         border-bottom: 1px solid #b1abab;
-    }
-
-    .subject-wrapper{
-        width: 20%;
+        div{
+            width: 25%;
+        }
+        .customer-responded-time-wrapper{
+            width: 30%;
+        }
     }
 }
 
@@ -42,26 +44,20 @@ a{
     font-size: 12px;
     text-transform: capitalize;
     @include displayProps(98.5%,18px ,flex );
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    .contact-name-wrapper{
-        text-transform: none;
+    .select-all-checkbox{
+        width: 15px;
     }
     .ticket-id-wrapper{
-        margin-left: 2%;
-    }
-    .customer-responded-time-wrapper{
-        margin-left: 5%;
-    }
-    .subject-wrapper{
         width: 20%;
-        
     }
-    .Due-date-wrapper{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 15%;
+    div{
+        width: 25%;
+        padding:5px;
+        padding-left: 0;
+        margin-left: 0;
+        margin: 1px;
     }
 }
 
@@ -70,11 +66,3 @@ a{
     background: rgba(105, 103, 103, 0.349);
 }
 
-table{
-    tr{
-        width: 100%;
-    }
-    th{
-        width: 1%;
-    }
-}

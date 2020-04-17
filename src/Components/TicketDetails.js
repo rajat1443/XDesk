@@ -36,7 +36,6 @@ class TicketDetails extends Component {
                 } else {
                     _state.message = message;
                 }
-
                 this.setState(_state);
             }
         })

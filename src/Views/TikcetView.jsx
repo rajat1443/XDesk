@@ -32,7 +32,6 @@ const ticketView = (payload) => {
     month[10] = "November";
     month[11] = "December";
     var creationMonth = month[creationTime.getMonth()];
-
     var dueOnMonth = month[dueOn.getMonth()];
 
     let isHidden = 'none'

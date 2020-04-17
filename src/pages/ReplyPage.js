@@ -44,7 +44,7 @@ class Reply extends Component {
             callbackHandler: (response) => {
                 const { status, message, payload } = response;
                 const _state = cloneDeep(this.state);
-
+                console.log(response)
                 if (status === constants.SUCCESS) {
                     _state.message = '';
                     _state.ticketData = payload.result.ticketDetails;
@@ -53,7 +53,7 @@ class Reply extends Component {
                 }
 
                 this.setState({ ticketData: _state.ticketData });
-                console.log(this.state.ticketData)
+
             }
         })
     }
@@ -90,9 +90,6 @@ class Reply extends Component {
         const ticket_id = this.props.match.params.ticket_id;
         const url = '/' + ticket_id + '/replies';
         this.setState({ ticket_id: ticket_id });
-        console.log(this.state.ticket_id);
-
-
         const { text } = this.state;
 
         this.setState(() => {
@@ -109,8 +106,6 @@ class Reply extends Component {
 
                     if (status === constants.SUCCESS) {
                         _state.message = message;
-                        console.log(payload);
-
                     }
                 }
             })

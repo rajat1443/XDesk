@@ -4,7 +4,7 @@ import avatar from '../images/avatar.png';
 
 const TicketReplyBottomContainer = (payload) => {
     const { handleChange, handleSubmit, props, ticketData, replies } = payload;
-    console.log(replies)
+
     const dueOn = new Date(ticketData.dueOn);
     const currentDate = new Date();
     return (
@@ -110,6 +110,10 @@ const TicketReplyBottomContainer = (payload) => {
                         <div className="status-wrapper">
                             <span>Status</span>
                             <span>{ticketData.status}</span>
+                            <select defaultValue={ticketData.status}>
+                                <option value="CLOSED">Closed</option>
+                                <option value="OPEN">Open</option>
+                            </select>
                             {/* <option value="CLOSED">Closed</option>
                                 <option value="OPEN">Open</option>
                             </select> */}

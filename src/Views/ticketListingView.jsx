@@ -18,7 +18,7 @@ export const ticketListingView = (payload) => {
                         Ticket ID
                     </div>
                     <div className="subject-wrapper">
-                        Subject
+                        subject
                     </div>
                     <div className="contact-name-wrapper">
                         Contact Name
@@ -57,7 +57,7 @@ export const ticketListingView = (payload) => {
                                 {list.subject}
                             </div>
                             <div className="contact-name-wrapper">
-                                {list.emailId}
+                                {list.displayName}
                             </div>
                             <div className="customer-responded-time-wrapper">
                                 {creationTime.toLocaleString()}
@@ -95,6 +95,6 @@ export const ticketListingView = (payload) => {
 
             }
 
-        </div>
+        </div >
     )
 }

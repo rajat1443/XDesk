@@ -27,7 +27,6 @@ export default class TicketListingPage extends React.Component {
                 limit: 10
             },
             callbackHandler: (response) => {
-                // console.log(response)
                 const { status, message, payload } = response;
                 const _state = cloneDeep(this.state);
                 _state.isLoading = false;
