@@ -45,8 +45,10 @@ export const ticketListingView = (payload) => {
                     const creationTime = new Date(list.creationTime);
                     const dueOn = new Date(list.dueOn);
                     return (
-                        <Link to={'/ticketlist/' + list.id}> <div className="ticket-table-info-wrapper" key={list.id}>
+                        <Link to={'/ticketlist/' + list.id}> 
+                        <div className="ticket-table-info-wrapper">
                             <div className="select-all-checkbox">
+<<<<<<< HEAD
                                 <input type="checkbox" />
                             </div>
 
@@ -73,22 +75,52 @@ export const ticketListingView = (payload) => {
                             </div>
                             <div className="Channel-wrapper">
                                 {list.channel}
+=======
+                                    <input type="checkbox" />
+>>>>>>> b14ff67f297dd15117968b418ad892c3a14618ee
                             </div>
+                            <div className="ticket-info-wrapper" key={list.id}>
+                                <div className="ticket-id-wrapper">
+                                    {list.id}
+                                </div>
+                                <div className="subject-wrapper">
+                                    {list.subject}
+                                </div>
+                                <div className="contact-name-wrapper">
+                                    {list.emailId}
+                                </div>
+                                <div className="customer-responded-time-wrapper">
+                                    {creationTime.toLocaleString()}
+                                </div>
+                                <div className="Due-date-wrapper">
+                                    {dueOn.toLocaleString()}
+                                </div>
+                                <div className="Status-wrapper">
+                                    {list.status}
+                                </div>
+                                <div className="Ticket-owner-wrapper">
+                                    {list.assignedTo}
+                                </div>
+                                <div className="Channel-wrapper">
+                                    {list.channel}
+                                </div>
 
-                            {/* <div className="headings-wrapper">
-                                {
-                                    orderType.map((key) => {
+                                {/* <div className="headings-wrapper">
+                                    {
+                                        orderType.map((key) => {
 
-                                        return (
+                                            return (
 
-                                            <div key={list[key]}>{list[key]}</div>
+                                                <div key={list[key]}>{list[key]}</div>
 
-                                        );
+                                            );
 
-                                    })
-                                }
-                            </div> */}
-                        </div></Link>
+                                        })
+                                    }
+                                </div> */}
+                            </div>
+                        </div>
+                        </Link>
                     );
 
                 })
