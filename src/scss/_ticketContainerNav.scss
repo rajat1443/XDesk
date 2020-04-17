@@ -42,26 +42,21 @@ a{
     font-size: 12px;
     text-transform: capitalize;
     @include displayProps(98.5%,18px ,flex );
-    justify-content: space-between;
-    align-items: center;
-    .contact-name-wrapper{
-        text-transform: none;
+
+    .ticket-info-wrapper{
+        @include displayProps(100%,18px ,flex );
+        justify-content: space-around;
+        align-items: flex-start;
     }
     .ticket-id-wrapper{
-        margin-left: 2%;
-    }
-    .customer-responded-time-wrapper{
-        margin-left: 5%;
+        width:70px;
+        text-align: center;
     }
     .subject-wrapper{
         width: 20%;
-        
     }
-    .Due-date-wrapper{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 15%;
+    .Channel-wrapper{
+        margin-right:0.7% ;
     }
 }
 
