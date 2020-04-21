@@ -28,7 +28,7 @@ class TicketDetails extends Component {
             callbackHandler: (response) => {
                 const { status, message, payload } = response;
                 const _state = cloneDeep(this.state);
-                console.log(response)
+
 
                 if (status === constants.SUCCESS) {
                     _state.message = '';
@@ -62,18 +62,48 @@ class TicketDetails extends Component {
     }
 
 
-    changeSelectValue = (selectValue) => {
+    changeSelectValue = (selectValue, ticketStatus) => {
+        if (ticketStatus === "CLOSED") {
+            alert('Cannot change assigned role the ticket is closed!');
+        } else {
+            const emailId = ((selectValue) => {
+                switch (selectValue) {
+                    case 'admin default person':
+                        return 'admin@xebia.com';
+                    case 'hr default person':
+                        return 'hr@xebia.com';
+                    case 'finance default person':
+                        return 'finance@xebia.com';
+                    default:
+                        return 'admin@xebis.com';
+                }
+            })(selectValue)
+            // console.log(selectValue)
+            console.log(emailId)
+            const id = this.props.match.params.ticket_id;
+            fetch.put({
+                url: constants.SERVICE_URLS.TICKET_ASSIGN + '/' + id + '?emailId=' + emailId,
+                callbackHandler: (response) => {
+                    console.log(response);
+                    window.location.reload();
+                }
+            })
+
+        }
+
+    }
+
+    changeStatusValue = (statusValue) => {
         const id = this.props.match.params.ticket_id;
+        window.location.reload()
         fetch.put({
-            url: constants.SERVICE_URLS.TICKET_ASSIGN + '/' + id + '?emailId=hr@xebia.com',
-            requestParams: {
-                emailId: selectValue
-            },
+            url: constants.SERVICE_URLS.TICKET_STATUS + id + '/change-status?status=' + statusValue,
             callbackHandler: (response) => {
                 console.log(response);
-
+                window.location.reload();
             }
         })
+
     }
 
 
@@ -82,7 +112,10 @@ class TicketDetails extends Component {
             <TicketView
                 {...this.state}
                 toggleReplyDisplay={this.toggleReplyDisplay}
-                changeSelectValue={this.changeSelectValue} />
+                changeSelectValue={this.changeSelectValue}
+                changeStatusValue={this.changeStatusValue}
+            />
+
         )
     }
 }

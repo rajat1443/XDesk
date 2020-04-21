@@ -12,7 +12,7 @@ import { constants } from '../modules/constants';
 
 const ticketView = (payload) => {
 
-    const { ticketData, ticketReplies, changeSelectValue } = payload;
+    const { ticketData, ticketReplies, changeSelectValue, changeStatusValue } = payload;
     const currentTime = Date.now()
     const creationTime = new Date(ticketData.creationTime);
     const daysBetween = new Date(currentTime - ticketData.creationTime);
@@ -95,10 +95,10 @@ const ticketView = (payload) => {
                             <div className="profile-wrapper">
                                 <div className="profile-picture-wrapper">
                                 </div>
-                                <select value='HR' onChange={(e) => { changeSelectValue(e.target.value) }}>
-                                    <option value='admin@xebia.com'>Admin</option>
-                                    <option value='hr@xebia.com'>HR</option>
-                                    <option value='finance@xebia.com'>Finance</option>
+                                <select value={ticketData.assignedTo} onChange={(e) => { changeSelectValue(e.target.value, ticketData.status) }}>
+                                    <option value='admin default person'>Admin</option>
+                                    <option value='hr default person'>HR</option>
+                                    <option value='finance default person'>Finance</option>
                                 </select>
                                 <span>{ticketData.assignedTo}</span>
                             </div>
@@ -106,9 +106,11 @@ const ticketView = (payload) => {
 
                         <div className="status-wrapper">
                             <span>Status</span>
-                            <select className="ticket-brief-status-select-wrapper">
-                                <option defaultValue>{ticketData.status}</option>
+                            <select className="ticket-brief-status-select-wrapper" value={ticketData.status} onChange={(e) => { changeStatusValue(e.target.value) }}>
+                                <option value="OPEN">OPEN</option>
+                                <option value="CLOSED">CLOSED</option>
                             </select>
+                            <span>{ticketData.status}</span>
                         </div>
 
                         <div className="closed-time-wrapper">
@@ -190,10 +192,10 @@ const ticketView = (payload) => {
                         <div className="history-wrapper">history</div>
                     </div>
                     <div className="total-ticket-details-wrapper">
-                        <form>
+                        {/* <form>
                             <textarea rows="10" cols="50"></textarea>
                             <button>submit</button>
-                        </form>
+                        </form> */}
                         <div className="name-wrapper">
                             <p className="username-wrapper">{ticketData.emailId} <span className="details-date-wrapper">{creationTime.getDay() + ' ' + creationMonth} {}</span></p> <br />
                             <p className="ticket-description">{ticketData.description}</p>

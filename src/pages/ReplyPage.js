@@ -87,6 +87,7 @@ class Reply extends Component {
 
     handleSubmit = (e) => {
         // e.preventDefault();
+        console.log('hello');
         const ticket_id = this.props.match.params.ticket_id;
         const url = '/' + ticket_id + '/replies';
         this.setState({ ticket_id: ticket_id });
@@ -100,7 +101,7 @@ class Reply extends Component {
                     conversationType: "comment"
                 },
                 callbackHandler: (response) => {
-                    console.log(response)
+                    console.log(response);
                     const { status, message, payload } = response;
                     const _state = cloneDeep(this.state);
 

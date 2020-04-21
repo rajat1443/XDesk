@@ -8,7 +8,8 @@ export const constants = {
         TICKET_LISTING: `${API_HOST_PATH}/ticket-tool/v1/tickets`,
         TICKET_DETAILING: `${API_HOST_PATH}/ticket-tool/v1/tickets`,
         TICKET_REPLY: `${API_HOST_PATH}/ticket-tool/v1/tickets`,
-        TICKET_ASSIGN: `${API_HOST_PATH}/ticket-tool/v1/tickets/assign`
+        TICKET_ASSIGN: `${API_HOST_PATH}/ticket-tool/v1/tickets/assign`,
+        TICKET_STATUS: `${API_HOST_PATH}/ticket-tool/v1/tickets/`
     },
     NO_DATA_FOUND: 'No results found...'
 };
