@@ -53,8 +53,8 @@
             .ticket-replies-wrapper{
                 @include flexProvider(flex-start,space-evenly ,column );
                 width:100%;
-                height: 40%;
-                overflow-y: auto;
+                height: 100%;
+                overflow: auto;
                 
                 .individual-reply-wrapper{
                     height: 25%;

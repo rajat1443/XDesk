@@ -86,7 +86,7 @@ class Reply extends Component {
     }
 
     handleSubmit = (e) => {
-        // e.preventDefault();
+        e.preventDefault();
         console.log('hello');
         const ticket_id = this.props.match.params.ticket_id;
         const url = '/' + ticket_id + '/replies';
@@ -107,6 +107,7 @@ class Reply extends Component {
 
                     if (status === constants.SUCCESS) {
                         _state.message = message;
+                        window.location.reload();
                     }
                 }
             })

@@ -56,7 +56,7 @@ const TicketReplyBottomContainer = (payload) => {
                                     <p>Attach a File <span className="black-text">(Upto 20 MB)</span></p>
                                 </div>
                                 <div className="buttons-wrapper">
-                                    <input type="submit" value="Send" data-hover="click me" />
+                                    <input type="submit" value="Send" />
                                     <button> Save Draft</button>
 
                                     <span className="cancel-wrapper">

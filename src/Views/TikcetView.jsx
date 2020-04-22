@@ -65,14 +65,14 @@ const ticketView = (payload) => {
                         </div>
                     </div>
                     <div className="ticket-snapshot-wrapper">
-
+                        <div className="ticket-snapshot-left-border"></div>
                         <div className="snapshot-heading-wrapper">
                             <i className="fa fa-globe">
                                 <span className="date-text">
                                     {creationTime.getDay() + ' ' + creationMonth}
                                 </span>
                             </i>
-                            <span>{ticketData.emailId}</span>
+                            <span>{ticketData.displayName}</span>
                         </div>
                         <div className="ticket-snapshot-information-wrapper">
                             <p> {ticketData.subject}</p>
@@ -82,35 +82,32 @@ const ticketView = (payload) => {
                 <div className="ticket-brief-wrapper">
                     <div className="ticket-brief-heading-wrapper">
                         <div className="ticket-brief-heading-horizontal-line-wrapper"></div>
-                        <h3> {ticketData.emailId} <i className="fa fa-globe">
-                            <span className="date-text">{creationTime.getDay() + ' ' + creationMonth}</span></i>
-                        </h3>
+                        <h3> {ticketData.displayName} <i className="fa fa-globe"></i></h3>
                         <span>{ticketData.emailId}</span>
-                        <span>Phone No. Comes here</span>
+
                     </div>
 
                     <div className="ticket-brief-information-wrapper">
                         <div className="assigned-officer-wrapper">
                             <span>Assigned To</span>
                             <div className="profile-wrapper">
-                                <div className="profile-picture-wrapper">
-                                </div>
+
                                 <select value={ticketData.assignedTo} onChange={(e) => { changeSelectValue(e.target.value, ticketData.status) }}>
                                     <option value='admin default person'>Admin</option>
                                     <option value='hr default person'>HR</option>
                                     <option value='finance default person'>Finance</option>
                                 </select>
-                                <span>{ticketData.assignedTo}</span>
+                                {/* <span>{ticketData.assignedTo}</span>     */}
                             </div>
                         </div>
 
                         <div className="status-wrapper">
                             <span>Status</span>
-                            <select className="ticket-brief-status-select-wrapper" value={ticketData.status} onChange={(e) => { changeStatusValue(e.target.value) }}>
+                            <select className="ticket-brief-status-select" value={ticketData.status} onChange={(e) => { changeStatusValue(e.target.value) }}>
                                 <option value="OPEN">OPEN</option>
                                 <option value="CLOSED">CLOSED</option>
                             </select>
-                            <span>{ticketData.status}</span>
+                            {/* <span>{ticketData.status}</span> */}
                         </div>
 
                         <div className="closed-time-wrapper">
@@ -171,7 +168,7 @@ const ticketView = (payload) => {
                                 </div>
                                 <div className="subject-right-side-wrapper">
                                     <img className="reply-image" src={reply} alt="nothing here" width="30px" height="30px" onClick={toggleReplyDisplay} />
-                                    <Link to={'/replies/' + ticketData.id}>
+                                    <Link to={'/ticketlist/' + ticketData.id}>
                                         <img className="chat-image" src={chat} alt="nothing here" width="30px" height="30px" />
                                     </Link>
                                 </div>
@@ -200,7 +197,24 @@ const ticketView = (payload) => {
                             <p className="username-wrapper">{ticketData.emailId} <span className="details-date-wrapper">{creationTime.getDay() + ' ' + creationMonth} {}</span></p> <br />
                             <p className="ticket-description">{ticketData.description}</p>
                         </div>
-                        <div className="replies-wrapper">
+                        <div className="ticket-replies-wrapper">
+                            {
+                                ticketReplies.map((reply) => {
+                                    const replyCreatedOn = new Date(reply.createdOn);
+
+                                    return (
+                                        <div className="individual-reply-wrapper" key={reply.id}>
+                                            <div className="reply-heading-wrapper">
+                                                <div className="profile-wrapper"></div>
+                                                <span className="reply-createdOn-wrapper"> {replyCreatedOn.getHours()} : {replyCreatedOn.getMinutes()} : {replyCreatedOn.getSeconds()} </span>
+                                            </div>
+                                            <div className="reply-text-wrapper">{reply.text}</div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                        {/* <div className="replies-wrapper">
                             <h1>Replies</h1>
 
                             {ticketReplies ?
@@ -213,7 +227,7 @@ const ticketView = (payload) => {
                                     )
                                 })
                                 : console.log('nothing here')}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
 
