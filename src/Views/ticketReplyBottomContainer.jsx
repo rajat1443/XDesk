@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import avatar from '../images/avatar.png';
+import { constants } from '../modules/constants';
 
 const TicketReplyBottomContainer = (payload) => {
-    const { handleChange, handleSubmit, props, ticketData, replies } = payload;
+    const { handleChange, handleSubmit, props, ticketData, replies, handleCommentReply } = payload;
+    const [commentReply, isVisible] = useState('reply');
 
     const dueOn = new Date(ticketData.dueOn);
     const currentDate = new Date();
+
+    const functionCall = () => {
+        isVisible('reply');
+        handleCommentReply(commentReply)
+    }
     return (
-        <div className="ticket-reply-bottom-container">
+        <div className="ticket-reply-bottom-container" >
             <div className="search-field-wrapper">
                 <div className="search-field-text-wrapper">
                     <span>Tickets/Xebia</span>
@@ -34,23 +41,35 @@ const TicketReplyBottomContainer = (payload) => {
 
                             <div className="reply-wrapper-right-side">
 
-                                <div className="reply-child-left-side">
+                                <div className="reply-child-left-side" onClick={() => functionCall()} >
                                     <i className="fa fa-reply"></i>
                                     <p>Reply</p>
                                 </div>
 
-                                <div className="reply-child-right-side">
-                                    <i className="fa fa-comment"></i>
+                                <div className="reply-child-right-side" onClick={() => { isVisible('comment'); handleCommentReply(commentReply) }}>
+                                    <i className="fa fa-comment" ></i>
                                     <p>Comment</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="comment-box-wrapper">
-                            <div className="sqaure-profile-identifier-wrapper"></div>
-                            <textarea form="reply-form" id="reply" cols="50" rows="8" onChange={(e) => { handleChange(e.target.value) }}></textarea>
-                        </div>
+                        {
+                            commentReply === 'reply' ?
+                                <div className="comment-box-wrapper">
+                                    <div className="sqaure-profile-identifier-wrapper"></div>
+                                    <textarea form="reply-form" id="reply" cols="50" rows="8" onChange={(e) => { handleChange(e.target.value) }} placeholder="Please add a reply.Note: This will send an email to the user who raised the ticket"></textarea>
+                                </div>
+                                : null
+                        }
+                        {
+                            commentReply === 'comment' ?
+                                <div className="comment-box-wrapper">
+                                    <div className="sqaure-profile-identifier-wrapper"></div>
+                                    <textarea form="reply-form" id="reply" cols="50" rows="8" onChange={(e) => { handleChange(e.target.value) }} placeholder="Please add a comment.Note: This will not send an email to the user who raised the ticket"></textarea>
+                                </div>
+                                : null
+                        }
                         <div className="ticket-reply-form-wrapper">
-                            <form id="reply-form" onSubmit={handleSubmit} >
+                            <form id="reply-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(commentReply) }} >
                                 <div className="attach-file-wrapper">
                                     <i className="material-icons">attachment</i>
                                     <p>Attach a File <span className="black-text">(Upto 20 MB)</span></p>
@@ -68,7 +87,7 @@ const TicketReplyBottomContainer = (payload) => {
                     </div>
                     <div className="ticket-replies-wrapper">
                         {
-                            replies.map((reply) => {
+                            replies ? replies.map((reply) => {
                                 const replyCreatedOn = new Date(reply.createdOn);
 
                                 return (
@@ -81,6 +100,7 @@ const TicketReplyBottomContainer = (payload) => {
                                     </div>
                                 )
                             })
+                                : null
                         }
                     </div>
                 </div>
@@ -91,7 +111,7 @@ const TicketReplyBottomContainer = (payload) => {
                     <div className="ticket-brief-information-wrapper">
                         <div className="add-ticket-button">
                             {/* {console.log(props)} */}
-                            <Link to={'/ticketList/' + props.match.params.ticket_id}> <button>Go To Ticket</button> </Link>
+                            <Link to={'/ticket/' + props.match.params.ticket_id}> <button>Go To Ticket</button> </Link>
                         </div>
 
                         <div className="edit-ticket-properties-wrapper">
@@ -166,7 +186,7 @@ const TicketReplyBottomContainer = (payload) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }

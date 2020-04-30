@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import TikcetListNav from './TicketListNav';
 import arrow from '../images/arrow.png';
 import globe from '../images/globe.png';
@@ -6,17 +6,15 @@ import clock from '../images/clock.png';
 import chat from '../images/chat.png';
 import { Link } from 'react-router-dom';
 import reply from '../images/reply.png';
-import replyContainer from './replyContainerView';
-import { constants } from '../modules/constants';
-// import TicketDetails from '../Components/TicketDetails';
 
-const ticketView = (payload) => {
 
-    const { ticketData, ticketReplies, changeSelectValue, changeStatusValue } = payload;
-    const currentTime = Date.now()
+const TicketView = (payload) => {
+    const [display, isVisible] = useState('id_conversation');
+    const [ticketStatusPopup, shouldDisplay] = useState('no');
+    const [styleValues, styleChanger] = useState({ color: "", fontSize: "" });
+    const { ticketData, ticketReplies, changeSelectValue, changeStatusValue, resolutionChangeHandler, resolutionSubmitHandler, statusHandler, resolutionText, allAdminUsers } = payload;
+
     const creationTime = new Date(ticketData.creationTime);
-    const daysBetween = new Date(currentTime - ticketData.creationTime);
-
     const dueOn = new Date(ticketData.dueOn)
     var month = new Array();
     month[0] = "January";
@@ -34,23 +32,34 @@ const ticketView = (payload) => {
     var creationMonth = month[creationTime.getMonth()];
     var dueOnMonth = month[dueOn.getMonth()];
 
-    let isHidden = 'none'
+    const selectMapper = (mapValues) => {
+        mapValues.map((option) => {
+            return (
+                <option key={option.departmentId} value={option.emailId}>{option.name}</option>
+            )
+        })
+    }
 
-    const toggleReplyDisplay = () => {
-        if (isHidden === 'none') {
-            isHidden = 'block';
-        } else {
-            isHidden = 'none';
-        }
-        console.log(isHidden)
-    }
-    const hello = () => {
-        alert('hello');
-    }
+
+
 
 
     return (
-        <div className="TicketDetails-container">
+        <div className="TicketDetails-container" >
+            {ticketStatusPopup === 'yes' ?
+                <div className="popup-background-wrapper">
+                    <div className="status-popup-wrapper">
+                        <div className="close-wrapper">
+                            [X]
+                         </div>
+                        <p>Do you want to close the ticket?</p>
+                        <div className="buttons-wrapper">
+                            <button type="submit" onClick={statusHandler}>Yes</button>
+                            <button type="submit" onClick={() => { shouldDisplay('no') }}>No</button>
+                        </div>
+                    </div>
+                </div>
+                : null}
             <div className="ticket-details-nav-wrapper">
                 {/* <TikcetListNav /> */}
             </div>
@@ -93,9 +102,13 @@ const ticketView = (payload) => {
                             <div className="profile-wrapper">
 
                                 <select value={ticketData.assignedTo} onChange={(e) => { changeSelectValue(e.target.value, ticketData.status) }}>
-                                    <option value='admin default person'>Admin</option>
-                                    <option value='hr default person'>HR</option>
-                                    <option value='finance default person'>Finance</option>
+                                    {allAdminUsers ?
+                                        allAdminUsers.map((admin) => {
+                                            return (
+                                                <option key={admin.emailId} value={admin.emailId}>{admin.name}</option>
+                                            )
+                                        })
+                                        : null}
                                 </select>
                                 {/* <span>{ticketData.assignedTo}</span>     */}
                             </div>
@@ -159,7 +172,7 @@ const ticketView = (payload) => {
                 <div className="selected-ticket-details-wrapper">
                     <div className="selected-ticket-header-wrapper">
                         <div className="web-icon-wrapper">
-                            <img src={globe} alt="globe image here" width="30px" height="30px" />
+                            <img src={globe} alt="nothing much here" width="30px" height="30px" />
                         </div>
                         <div className="selected-ticket-heading-wrapper">
                             <div className="id-and-subject-wrapper">
@@ -167,7 +180,7 @@ const ticketView = (payload) => {
                                     <p>{'#' + ticketData.id} {ticketData.subject}</p>
                                 </div>
                                 <div className="subject-right-side-wrapper">
-                                    <img className="reply-image" src={reply} alt="nothing here" width="30px" height="30px" onClick={toggleReplyDisplay} />
+                                    <img className="reply-image" src={reply} alt="nothing here" width="30px" height="30px" />
                                     <Link to={'/ticketlist/' + ticketData.id}>
                                         <img className="chat-image" src={chat} alt="nothing here" width="30px" height="30px" />
                                     </Link>
@@ -180,41 +193,63 @@ const ticketView = (payload) => {
                         </div>
                     </div>
                     <div className="ticket-details-sub-nav-wrapper">
-                        <div className="conversation-wrapper">Conversation</div>
-                        <div className="resolution-wrappe">resolution</div>
+                        <div className="conversation-wrapper" onClick={() => isVisible('id_conversation')} style={display === 'id_conversation' ? { color: "blue", fontSize: "11px", fontWeight: "bolder" } : null}> Conversation</div>
+
+                        <div className="resolution-wrapper" onClick={() => isVisible('id_resolution')} style={display === 'id_resolution' ? { color: 'blue', fontSize: "11px", fontWeight: "bolder" } : null}>resolution</div>
                         <div className="time-entry-wrapper">time-entry</div>
                         <div className="attachment-wrapper">attachment</div>
                         <div className="activity-wrapper">activity</div>
                         <div className="approval-wrapper">approval</div>
                         <div className="history-wrapper">history</div>
                     </div>
-                    <div className="total-ticket-details-wrapper">
-                        {/* <form>
+
+                    {/* <form>
                             <textarea rows="10" cols="50"></textarea>
                             <button>submit</button>
                         </form> */}
-                        <div className="name-wrapper">
-                            <p className="username-wrapper">{ticketData.emailId} <span className="details-date-wrapper">{creationTime.getDay() + ' ' + creationMonth} {}</span></p> <br />
-                            <p className="ticket-description">{ticketData.description}</p>
-                        </div>
-                        <div className="ticket-replies-wrapper">
-                            {
-                                ticketReplies.map((reply) => {
-                                    const replyCreatedOn = new Date(reply.createdOn);
+                    {display === 'id_conversation' ? <React.Fragment>
+                        <div className="total-ticket-details-wrapper">
+                            <div className="name-wrapper">
+                                <p className="username-wrapper">{ticketData.emailId} <span className="details-date-wrapper">{creationTime.getDay() + ' ' + creationMonth} {}</span></p> <br />
+                                <p className="ticket-description">{ticketData.description}</p>
+                            </div>
+                            <div className="ticket-replies-wrapper">
+                                {
+                                    ticketReplies ? ticketReplies.map((reply) => {
+                                        const replyCreatedOn = new Date(reply.createdOn);
 
-                                    return (
-                                        <div className="individual-reply-wrapper" key={reply.id}>
-                                            <div className="reply-heading-wrapper">
-                                                <div className="profile-wrapper"></div>
-                                                <span className="reply-createdOn-wrapper"> {replyCreatedOn.getHours()} : {replyCreatedOn.getMinutes()} : {replyCreatedOn.getSeconds()} </span>
+                                        return (
+                                            <div className="individual-reply-wrapper" key={reply.id}>
+                                                <div className="reply-heading-wrapper">
+                                                    <div className="profile-wrapper"></div>
+                                                    <span className="reply-createdOn-wrapper"> {replyCreatedOn.getHours()} : {replyCreatedOn.getMinutes()}} </span>
+                                                </div>
+                                                <div className="reply-text-wrapper">{reply.text}</div>
                                             </div>
-                                            <div className="reply-text-wrapper">{reply.text}</div>
-                                        </div>
-                                    )
-                                })
-                            }
+                                        )
+                                    })
+                                        : <p> NO activity here yet</p>
+                                }
+                            </div>
                         </div>
-                        {/* <div className="replies-wrapper">
+                    </React.Fragment> : null}
+
+
+                    {display === 'id_resolution' ? ticketData.resolution ? <React.Fragment>
+                        <div>
+                            {ticketData.resolution}
+                        </div>
+                    </React.Fragment> : <React.Fragment>
+                            <div className="resolution-wrapper">
+                                <form id="resolution-form" onSubmit={resolutionSubmitHandler}>
+                                    <textarea form="resolution-form" rows="7" cols="99" placeholder="Enter the resolution here..." onChange={(e) => { resolutionChangeHandler(e.target.value) }}></textarea>
+                                    <input type="submit" onClick={() => resolutionText ? shouldDisplay('yes') : null} value="Send" />
+                                </form>
+
+                            </div>
+                        </React.Fragment> : null}
+
+                    {/* <div className="replies-wrapper">
                             <h1>Replies</h1>
 
                             {ticketReplies ?
@@ -228,7 +263,7 @@ const ticketView = (payload) => {
                                 })
                                 : console.log('nothing here')}
                         </div> */}
-                    </div>
+
                 </div>
 
             </div>
@@ -237,4 +272,4 @@ const ticketView = (payload) => {
 }
 
 
-export default ticketView;
+export default TicketView;

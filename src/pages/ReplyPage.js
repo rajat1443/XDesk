@@ -13,7 +13,8 @@ class Reply extends Component {
             text: '',
             ticket_id: 0,
             replies: [],
-            ticketData: []
+            ticketData: [],
+            commentReply: "reply"
         }
     }
 
@@ -85,33 +86,59 @@ class Reply extends Component {
         this.setState({ text: text });
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('hello');
+
+    handleCommentReply = (commentReply) => {
+        this.setState({ commentReply: commentReply })
+    }
+
+
+    handleSubmit = (commentReply) => {
+
+        console.log(commentReply);
         const ticket_id = this.props.match.params.ticket_id;
         const url = '/' + ticket_id + '/replies';
         this.setState({ ticket_id: ticket_id });
-        const { text } = this.state;
+        const { text, ticketData } = this.state;
+        commentReply === "reply" ?
+            this.setState(() => {
+                fetch.post({
+                    url: constants.SERVICE_URLS.TICKET_REPLY + url,
+                    requestBody: {
+                        text: text,
+                        conversationType: "Reply",
+                        mailRecepients: ticketData.emailId
+                    },
+                    callbackHandler: (response) => {
+                        console.log(response);
+                        const { status, message, payload } = response;
+                        const _state = cloneDeep(this.state);
 
-        this.setState(() => {
-            fetch.post({
-                url: constants.SERVICE_URLS.TICKET_REPLY + url,
-                requestBody: {
-                    text: text,
-                    conversationType: "comment"
-                },
-                callbackHandler: (response) => {
-                    console.log(response);
-                    const { status, message, payload } = response;
-                    const _state = cloneDeep(this.state);
-
-                    if (status === constants.SUCCESS) {
-                        _state.message = message;
-                        window.location.reload();
+                        if (status === constants.SUCCESS) {
+                            _state.message = message;
+                            window.location.reload();
+                        }
                     }
-                }
+                })
+            }) :
+            this.setState(() => {
+                fetch.post({
+                    url: constants.SERVICE_URLS.TICKET_REPLY + url,
+                    requestBody: {
+                        text: text,
+                        conversationType: "comment"
+                    },
+                    callbackHandler: (response) => {
+                        console.log(response);
+                        const { status, message, payload } = response;
+                        const _state = cloneDeep(this.state);
+
+                        if (status === constants.SUCCESS) {
+                            _state.message = message;
+                            window.location.reload();
+                        }
+                    }
+                })
             })
-        })
     }
 
     render() {
@@ -123,6 +150,7 @@ class Reply extends Component {
                     handleSubmit={this.handleSubmit}
                     {...this.state}
                     props={this.props}
+                    handleCommentReply={this.handleCommentReply}
                 />
             </div>
 

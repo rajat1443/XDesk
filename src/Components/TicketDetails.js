@@ -3,7 +3,7 @@ import { cloneDeep } from 'lodash';
 import TicketView from '../Views/TikcetView';
 import { fetch } from '../modules/httpServices'
 import { constants } from '../modules/constants';
-import axios from 'axios';
+
 
 class TicketDetails extends Component {
     constructor(props) {
@@ -11,12 +11,13 @@ class TicketDetails extends Component {
         this.state = {
             ticketData: [],
             ticketReplies: [],
-            isHidden: 'none'
+            allAdminUsers: [],
+            resolutionText: null
         }
     }
 
     componentDidMount() {
-        const div = document.querySelector('chat-image');
+
         let id = this.props.match.params.ticket_id;
         this.getTicketInfo(id)
 
@@ -33,6 +34,7 @@ class TicketDetails extends Component {
                 if (status === constants.SUCCESS) {
                     _state.message = '';
                     _state.ticketData = payload.result.ticketDetails;
+
                 } else {
                     _state.message = message;
                 }
@@ -59,6 +61,24 @@ class TicketDetails extends Component {
 
             }
         })
+
+        fetch.get({
+            url: constants.SERVICE_URLS.TICKET_VIEW_ADMIN,
+            callbackHandler: (response) => {
+                const { status, message, payload } = response;
+
+                const _state = cloneDeep(this.state);
+
+                if (status === constants.SUCCESS) {
+                    _state.message = "";
+                    _state.allAdminUsers = payload.data;
+
+                } else {
+                    _state.message = message
+                }
+                this.setState({ allAdminUsers: _state.allAdminUsers })
+            }
+        })
     }
 
 
@@ -66,23 +86,10 @@ class TicketDetails extends Component {
         if (ticketStatus === "CLOSED") {
             alert('Cannot change assigned role the ticket is closed!');
         } else {
-            const emailId = ((selectValue) => {
-                switch (selectValue) {
-                    case 'admin default person':
-                        return 'admin@xebia.com';
-                    case 'hr default person':
-                        return 'hr@xebia.com';
-                    case 'finance default person':
-                        return 'finance@xebia.com';
-                    default:
-                        return 'admin@xebis.com';
-                }
-            })(selectValue)
-            // console.log(selectValue)
-            console.log(emailId)
+            console.log(selectValue)
             const id = this.props.match.params.ticket_id;
             fetch.put({
-                url: constants.SERVICE_URLS.TICKET_ASSIGN + '/' + id + '?emailId=' + emailId,
+                url: constants.SERVICE_URLS.TICKET_ASSIGN + '/' + id + '?emailId=' + selectValue,
                 callbackHandler: (response) => {
                     console.log(response);
                     window.location.reload();
@@ -99,11 +106,41 @@ class TicketDetails extends Component {
         fetch.put({
             url: constants.SERVICE_URLS.TICKET_STATUS + id + '/change-status?status=' + statusValue,
             callbackHandler: (response) => {
-                console.log(response);
                 window.location.reload();
             }
         })
 
+    }
+    statusHandler = () => {
+        const id = this.props.match.params.ticket_id;
+        fetch.put({
+            url: constants.SERVICE_URLS.TICKET_STATUS + id + '/change-status?status=CLOSED',
+            callbackHandler: (response) => {
+                window.location.reload();
+            }
+        })
+    }
+
+    resolutionChangeHandler = (resolutionText) => {
+        this.setState({ resolutionText: resolutionText })
+    }
+
+    resolutionSubmitHandler = (e) => {
+        e.preventDefault();
+        const id = this.props.match.params.ticket_id;
+        if (this.state.resolutionText === null) {
+            alert("Resolution can't be empty!")
+        } else {
+            fetch.post({
+                url: constants.SERVICE_URLS.TICKET_RESOLUTION + id + '/resolution',
+                requestBody: {
+                    text: this.state.resolutionText
+                },
+                callbackHandler: (response) => {
+                    console.log(response)
+                }
+            })
+        }
     }
 
 
@@ -114,6 +151,9 @@ class TicketDetails extends Component {
                 toggleReplyDisplay={this.toggleReplyDisplay}
                 changeSelectValue={this.changeSelectValue}
                 changeStatusValue={this.changeStatusValue}
+                resolutionSubmitHandler={this.resolutionSubmitHandler}
+                resolutionChangeHandler={this.resolutionChangeHandler}
+                statusHandler={this.statusHandler}
             />
 
         )

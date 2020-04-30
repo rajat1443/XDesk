@@ -24,7 +24,7 @@ export default class TicketListingPage extends React.Component {
             url: constants.SERVICE_URLS.TICKET_LISTING,
             requestParams: {
                 page: 0,
-                limit: 30
+                limit: 50
             },
             callbackHandler: (response) => {
                 const { status, message, payload } = response;

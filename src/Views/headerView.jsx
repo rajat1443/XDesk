@@ -10,7 +10,7 @@ export const headerView = (payload) => {
             <div className="navbar-left-side">
 
                 <div className="navbar-ticket-wrapper">
-                    <Link to='/Tickets'> Tickets </Link>
+                    <Link to='/ticketlist'> Tickets </Link>
                 </div>
 
                 <div className="navbar-customer-wrapper">
@@ -32,7 +32,7 @@ export const headerView = (payload) => {
 
             <div className="navbar-right-side">
                 <div className="navbar-xebia-brand-wrapper">
-                    <Link to='/TicketList'> Xebia </Link>
+                    <Link to='/ticketlist'> Xebia </Link>
                 </div>
                 <div className="navbar-search-icon-wrapper">
                     <svg className="bi bi-search" width="45px" height="1.1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -40,12 +40,12 @@ export const headerView = (payload) => {
                         <path fillRule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clipRule="evenodd" />
                     </svg>
                 </div>
-                <div className="navbar-plus-icon-wrapper">
+                <Link to='/addTickets'> <div className="navbar-plus-icon-wrapper">
                     <svg className="bi bi-plus" width="30px" height="1.3em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fillRule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z" clipRule="evenodd" />
                         <path fillRule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z" clipRule="evenodd" />
                     </svg>
-                </div>
+                </div></Link>
 
                 <div className="navbar-chat-icon-wrapper">
                     <svg className="bi bi-chat-square" width="30px" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

@@ -9,7 +9,13 @@ export const constants = {
         TICKET_DETAILING: `${API_HOST_PATH}/ticket-tool/v1/tickets`,
         TICKET_REPLY: `${API_HOST_PATH}/ticket-tool/v1/tickets`,
         TICKET_ASSIGN: `${API_HOST_PATH}/ticket-tool/v1/tickets/assign`,
-        TICKET_STATUS: `${API_HOST_PATH}/ticket-tool/v1/tickets/`
+        TICKET_STATUS: `${API_HOST_PATH}/ticket-tool/v1/tickets/`,
+        TICKET_RESOLUTION: `${API_HOST_PATH}/ticket-tool/v1/tickets/`,
+        TICKET_ADD: `${API_HOST_PATH}/ticket-tool/v1/tickets`,
+        TICKET_MASTER_DATA: `${API_HOST_PATH}/ticket-tool/v1/master-data/`,
+        TICKET_VIEW_ADMIN: `${API_HOST_PATH}/ticket-tool/v1/users/admins`
     },
+
+
     NO_DATA_FOUND: 'No results found...'
 };
