@@ -2,6 +2,7 @@ import React from 'react';
 import { cloneDeep } from 'lodash';
 import { constants } from '../modules/constants';
 import { fetch } from '../modules/httpServices';
+import TestView from '../Views/TestView';
 import { ticketListingView as TicketListingView } from '../Views/ticketListingView';
 import { sidebarView } from '../Views/sidebarView'
 
@@ -34,7 +35,8 @@ export default class TicketListingPage extends React.Component {
                 if (status === constants.SUCCESS) {
                     _state.message = '';
                     _state.listingData = payload.result.tickets;
-
+                    _state.listingData.sort((a, b) => a.id - b.id)
+                    console.log(_state.listingData);
                 } else {
                     _state.message = message;
                 }
@@ -49,9 +51,10 @@ export default class TicketListingPage extends React.Component {
         return (
             <React.Fragment>
                 <sidebarView />
-                <TicketListingView
+                {/* <TicketListingView
                     {...this.state}
-                />
+                /> */}
+                <TestView {...this.state} />
             </React.Fragment>
         );
 

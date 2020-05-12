@@ -1,0 +1,13 @@
+.ticketListingTable{
+    width: 100%;
+    // border-collapse: collapse;
+    tr{
+        background-color: rgba(224, 224, 224, 0.507);
+        margin-bottom: 2px;
+    }
+    th,td{
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+        margin-bottom: 2px;
+    }
+}

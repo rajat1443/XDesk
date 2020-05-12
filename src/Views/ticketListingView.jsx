@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const orderType = ['id', 'subject', 'emailId', 'creationTime', 'dueOn', 'status', 'assignedTo', 'channel'];
+
 
 export const ticketListingView = (payload) => {
 
-    const { listingData, isLoading } = payload;
+    const { listingData } = payload;
 
     return (
         <div className="ticket-container">
