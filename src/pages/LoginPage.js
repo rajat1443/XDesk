@@ -3,6 +3,7 @@ import { cloneDeep } from 'lodash';
 import { constants } from '../modules/constants';
 import { fetch } from '../modules/httpServices';
 import { loginView as LoginView } from '../Views/loginView';
+import { loginPages as LoginPages } from '../Views/loginPage';
 
 export default class LoginPage extends React.Component {
 
@@ -72,13 +73,18 @@ export default class LoginPage extends React.Component {
 
     render() {
         return (
-            <LoginView
-                {...{
-                    ...this.state,
-                    onInputChange: this.onInputChange,
-                    onSubmitHandler: this.onSubmitHandler
-                }}
-            />
+            // <LoginView
+            //     {...{
+            //         ...this.state,
+            //         onInputChange: this.onInputChange,
+            //         onSubmitHandler: this.onSubmitHandler
+            //     }}
+            // />
+            <LoginPages {...{
+                ...this.state,
+                onInputChange: this.onInputChange,
+                onSubmitHandler: this.onSubmitHandler
+            }} />
         );
     }
 
