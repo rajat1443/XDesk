@@ -13,6 +13,7 @@ const TicketView = (payload) => {
     const [ticketStatusPopup, shouldDisplay] = useState('no');
     const [styleValues, styleChanger] = useState({ color: "", fontSize: "" });
     const { ticketData, ticketReplies, changeSelectValue, changeStatusValue, resolutionChangeHandler, resolutionSubmitHandler, statusHandler, resolutionText, allAdminUsers } = payload;
+    const [displayreplybox, showreplybox] = useState(false);
 
     const creationTime = new Date(ticketData.creationTime);
     const dueOn = new Date(ticketData.dueOn)
@@ -40,7 +41,7 @@ const TicketView = (payload) => {
         })
     }
 
-
+    const showhidereplybox = () => showreplybox(!displayreplybox);
 
 
 
@@ -180,10 +181,10 @@ const TicketView = (payload) => {
                                     <p>{'#' + ticketData.id} {ticketData.subject}</p>
                                 </div>
                                 <div className="subject-right-side-wrapper">
-                                    <img className="reply-image" src={reply} alt="nothing here" width="30px" height="30px" />
-                                    <Link to={'/ticketlist/' + ticketData.id}>
-                                        <img className="chat-image" src={chat} alt="nothing here" width="30px" height="30px" />
-                                    </Link>
+                                    <img className="reply-image" src={reply} alt="nothing here" width="30px" height="30px"  />
+                                    {/* <Link to={'/ticketlist/' + ticketData.id}> */}
+                                        <img className="chat-image" src={chat} alt="nothing here" width="30px" height="30px" onClick={showhidereplybox} />
+                                    {/* </Link> */}
                                 </div>
                             </div>
                             <div className="time-wrapper">
@@ -209,6 +210,19 @@ const TicketView = (payload) => {
                         </form> */}
                     {display === 'id_conversation' ? <React.Fragment>
                         <div className="total-ticket-details-wrapper">
+                            {displayreplybox === true ? 
+                            <React.Fragment>
+                                <div class="comment-box-wrapper">
+                                    <textarea form="reply-form" id="reply" cols="50" rows="8" placeholder="Please add a reply.Note: This will send an email to the user who raised the ticket"></textarea>
+                                </div>
+                                <div class="buttons-wrapper">
+                                    <input type="submit" value="Send"></input>
+                                    <button> Save Draft</button>
+                                    <span class="cancel-wrapper">
+                                        <button> Cancel </button>
+                                    </span>
+                                </div>
+                            </React.Fragment> : null}
                             <div className="name-wrapper">
                                 <p className="username-wrapper">{ticketData.emailId} <span className="details-date-wrapper">{creationTime.getDay() + ' ' + creationMonth} {}</span></p> <br />
                                 <p className="ticket-description">{ticketData.description}</p>
