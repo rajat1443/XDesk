@@ -12,7 +12,8 @@ const TicketView = (payload) => {
     const [display, isVisible] = useState('id_conversation');
     const [ticketStatusPopup, shouldDisplay] = useState('no');
     const [styleValues, styleChanger] = useState({ color: "", fontSize: "" });
-    const { ticketData, ticketReplies, changeSelectValue, changeStatusValue, resolutionChangeHandler, resolutionSubmitHandler, statusHandler, resolutionText, allAdminUsers } = payload;
+    const { ticketData, ticketReplies, changeSelectValue, changeStatusValue, resolutionChangeHandler, resolutionSubmitHandler, statusHandler, resolutionText, allAdminUsers, ticketJourney } = payload;
+    const [displayreplybox, showreplybox] = useState(false);
 
     const creationTime = new Date(ticketData.creationTime);
     const dueOn = new Date(ticketData.dueOn)
@@ -40,7 +41,73 @@ const TicketView = (payload) => {
         })
     }
 
+    const switchChanges = (status) => {
+        switch (status) {
+            case "Assigned":
+                return (
+                    <React.Fragment>
+                        <div className="assigned-icon-wrapper"></div>
+                        <div className="change-text-wrapper">Ticket Assigned to Someone </div>
+                    </React.Fragment>
+                )
+            case "RAISED":
+                return (
+                    <React.Fragment>
+                        <div className="raised-icon-wrapper"></div>
+                        <div className="change-text-wrapper">Ticket Raised</div>
+                    </React.Fragment>
+                )
+            case "Resolving":
+                return (
+                    <React.Fragment>
+                        <div className="resolving-icon-wrapper"></div>
+                        <div className="change-text-wrapper">Someone is working on resolution of your ticket </div>
+                    </React.Fragment>
+                )
+            case "Awaiting":
+                return (
+                    <React.Fragment>
+                        <div className="awaiting-icon-wrapper"></div>
+                        <div className="change-text-wrapper">Awaiting for your response</div>
+                    </React.Fragment>
+                )
+            case "Review":
+                return (
+                    <React.Fragment>
+                        <div className="review-icon-wrapper"></div>
+                        <div className="change-text-wrapper">Ticket is under Review</div>
+                    </React.Fragment>
+                )
 
+            case "Escalated":
+                return (
+                    <React.Fragment>
+                        <div className="escalated-icon-wrapper"></div>
+                        <div className="change-text-wrapper">Ticket has escalated</div>
+                    </React.Fragment>
+                )
+            case "Closed":
+                return (
+                    <React.Fragment>
+                        <div className="Closed-icon-wrapper"></div>
+                        <div className="change-text-wrapper">Ticket Closed</div>
+                    </React.Fragment>
+                )
+            case "Re-opened":
+                return (
+                    <React.Fragment>
+                        <div className="re-opened-icon-wrapper"></div>
+                        <div className="change-text-wrapper">Ticket Re-opened</div>
+                    </React.Fragment>
+                )
+
+
+            default:
+                console.log("nothing here")
+        }
+    }
+
+    const showhidereplybox = () => showreplybox(!displayreplybox);
 
 
 
@@ -181,9 +248,9 @@ const TicketView = (payload) => {
                                 </div>
                                 <div className="subject-right-side-wrapper">
                                     <img className="reply-image" src={reply} alt="nothing here" width="30px" height="30px" />
-                                    <Link to={'/ticketlist/' + ticketData.id}>
-                                        <img className="chat-image" src={chat} alt="nothing here" width="30px" height="30px" />
-                                    </Link>
+                                    {/* <Link to={'/ticketlist/' + ticketData.id}> */}
+                                    <img className="chat-image" src={chat} alt="nothing here" width="30px" height="30px" onClick={showhidereplybox} />
+                                    {/* </Link> */}
                                 </div>
                             </div>
                             <div className="time-wrapper">
@@ -200,7 +267,7 @@ const TicketView = (payload) => {
                         <div className="attachment-wrapper">attachment</div>
                         <div className="activity-wrapper">activity</div>
                         <div className="approval-wrapper">approval</div>
-                        <div className="history-wrapper">history</div>
+                        <div className="history-wrapper" onClick={() => isVisible('id_history')} style={display === 'id_history' ? { color: 'blue', fontSize: "11px", fontWeight: "bolder" } : null} > history</div>
                     </div>
 
                     {/* <form>
@@ -209,6 +276,19 @@ const TicketView = (payload) => {
                         </form> */}
                     {display === 'id_conversation' ? <React.Fragment>
                         <div className="total-ticket-details-wrapper">
+                            {displayreplybox === true ?
+                                <React.Fragment>
+                                    <div class="comment-box-wrapper">
+                                        <textarea form="reply-form" id="reply" cols="50" rows="8" placeholder="Please add a reply.Note: This will send an email to the user who raised the ticket"></textarea>
+                                    </div>
+                                    <div class="buttons-wrapper">
+                                        <input type="submit" value="Send"></input>
+                                        <button> Save Draft</button>
+                                        <span class="cancel-wrapper">
+                                            <button> Cancel </button>
+                                        </span>
+                                    </div>
+                                </React.Fragment> : null}
                             <div className="name-wrapper">
                                 <p className="username-wrapper">{ticketData.emailId} <span className="details-date-wrapper">{creationTime.getDay() + ' ' + creationMonth} {}</span></p> <br />
                                 <p className="ticket-description">{ticketData.description}</p>
@@ -248,6 +328,29 @@ const TicketView = (payload) => {
 
                             </div>
                         </React.Fragment> : null}
+                    {
+                        display === 'id_history' ?
+                            ticketJourney ?
+                                <React.Fragment>
+                                    <div className="history-container">
+                                        {ticketJourney.map(((change) => {
+                                            return (
+
+                                                < div className="individual-change-wrapper" key={change.id} >
+                                                    <div className="top-right-corner-dot"></div>
+
+                                                    {
+
+                                                        switchChanges(change.status)
+                                                    }
+                                                    <div className="change-connector"></div>
+                                                </div>
+                                            )
+                                        }))}
+                                    </div>
+                                </React.Fragment> : <p> NO history of the ticket found</p>
+                            : null
+                    }
 
                     {/* <div className="replies-wrapper">
                             <h1>Replies</h1>

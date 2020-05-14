@@ -13,7 +13,8 @@ export const constants = {
         TICKET_RESOLUTION: `${API_HOST_PATH}/ticket-tool/v1/tickets/`,
         TICKET_ADD: `${API_HOST_PATH}/ticket-tool/v1/tickets`,
         TICKET_MASTER_DATA: `${API_HOST_PATH}/ticket-tool/v1/master-data/`,
-        TICKET_VIEW_ADMIN: `${API_HOST_PATH}/ticket-tool/v1/users/admins`
+        TICKET_VIEW_ADMIN: `${API_HOST_PATH}/ticket-tool/v1/users/admins`,
+        TICKET_HISTORY: `${API_HOST_PATH}/ticket-tool/v1/tickets/`
     },
 
 

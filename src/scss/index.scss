@@ -11,7 +11,7 @@ $leftPositon: 30%;
 @import './form-wrapper';
 @import './form-submit-button';
 @import './navbar';
-@import './ticketListing';
+@import './ticketListing.scss';
 @import './login.scss';
 
 
@@ -46,7 +46,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @include scrollbars(5px,#1c2634, white );
+  @include scrollbars(8px,rgb(143, 148, 161),#181C28,  );
   
 }
 

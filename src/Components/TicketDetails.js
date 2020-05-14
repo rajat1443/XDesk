@@ -12,6 +12,7 @@ class TicketDetails extends Component {
             ticketData: [],
             ticketReplies: [],
             allAdminUsers: [],
+            ticketJourney: [],
             resolutionText: null
         }
     }
@@ -77,6 +78,24 @@ class TicketDetails extends Component {
                     _state.message = message
                 }
                 this.setState({ allAdminUsers: _state.allAdminUsers })
+            }
+        })
+        fetch.get({
+            url: constants.SERVICE_URLS.TICKET_HISTORY + id + '/ticket-journey',
+            callbackHandler: (response) => {
+                const { status, payload, message } = response;
+
+                const _state = cloneDeep(this.state);
+
+                if (status === constants.SUCCESS) {
+                    _state.message = "";
+                    _state.ticketJourney = payload.result.ticketJourneys;
+
+
+                } else {
+                    _state.message = message;
+                }
+                this.setState({ ticketJourney: _state.ticketJourney })
             }
         })
     }
