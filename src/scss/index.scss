@@ -46,7 +46,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @include scrollbars(8px,rgb(143, 148, 161),#181C28,  );
+  @include scrollbars(8px,#FD7272,#181C28,  );
   
 }
 

@@ -19,7 +19,6 @@
 
         &:hover{
             text-decoration: none;
-            padding: 100px;
         }
     }
     tr{
@@ -29,6 +28,11 @@
         font-family: "Proxima Nova";
         font-size: 14px;
         color: white;
+        transition: all ease-in-out 0.3s;
+
+        &:hover{
+            box-shadow: 0px 1px 50px 2px rgb(0, 0, 0);
+        }
     }
     th,td{
         padding: 6px;

@@ -41,7 +41,7 @@ export default class LoginPage extends React.Component {
                     console.log(response)
                     const { status, message, payload } = response;
                     const _state = cloneDeep(this.state);
-                    console.log(_state)
+
                     _state.isLoading = false;
 
                     if (status === constants.SUCCESS) {

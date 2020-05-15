@@ -13,8 +13,8 @@ export const routes = () => {
     <BrowserRouter >
       <Route exact={true} path='/' component={LoginPage} />
       <Route exact={true} path='/ticketlist' component={userHasLogin(TicketListingPage)} />
-      <Route exact={true} path='/ticket/:ticket_id' component={userHasLogin(TicketDetails)} />
-      <Route exact={true} path='/ticketlist/:ticket_id' component={Reply} />
+      <Route exact={true} path='/ticketlist/:ticket_id' component={userHasLogin(TicketDetails)} />
+      <Route exact={true} path='/ticket/:ticket_id' component={Reply} />
       <Route exact={true} path='/addtickets' component={userHasLogin(Tickets)} />
       {/* 
            />

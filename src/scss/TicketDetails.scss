@@ -182,7 +182,7 @@
         border-right: 1px solid rgba(0, 0, 0, 0.253);
         border-top: 0;
         width: 22%;
-        box-shadow: -1px 2px 8px 1px rgba(0, 0, 0, 0.329);
+        box-shadow: -1px 2px 18px 1px rgba(0, 0, 0, 0.842);
         border-radius: 3px;
         overflow: overlay;
         font-size: 14px;
@@ -430,7 +430,7 @@
              }
 
              div{
-                 transition: all ease-in-out 0.5s;
+                 transition: all ease-in-out 0.3s;
              }
         }   
     
@@ -517,32 +517,15 @@
             }
         }
         .resolution-wrapper{
+            font-family: "Proxima Nova";
             form{
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
-                border: 1px solid rgba(0, 0, 0, 0.534);
+                color: white;
+                border: 1px solid #FD7272;
             }
-            textarea{
-                border: none;
-                padding-top: 10px;
-                background-color: transparent;
-            }
-            input[type='submit']{
-                background-color: #1c2634;
-                color:white;
-                border: none;
-                width: 100px;
-                height: 30px;
-                border-radius: 4%;
-                margin: 5px;
-                cursor: pointer;
-                transition: all ease-in 0.5s;
-            }
-            input[type='submit']:hover{
-                padding-right: 25px;
-                
-            }
+            
             
         }
     }
@@ -590,49 +573,49 @@
             .assigned-icon-wrapper{
                 width: 11.904%;
                 height: 100%;
-                background:url('../images/assigned.png') no-repeat;
+                background:url('../images/icons/icons/ticket_assigned.png') no-repeat;
                 background-size:100%;
             }
             .raised-icon-wrapper{
                 width: 11.904%;
                 height: 100%;
-                background:url('../images/hand.png') no-repeat;
+                background:url('../images/icons/icons/ticket_raised.png') no-repeat;
                 background-size:100%;
             }
             .resolving-icon-wrapper{
                 width: 11.904%;
                 height: 100%;
-                background:url('../images/hand.png') no-repeat;
+                background:url('../images/icons/icons/started_resolving.png') no-repeat;
                 background-size:100%;
             }
             .awaiting-icon-wrapper{
                 width: 11.904%;
                 height: 100%;
-                background:url('../images/response.png') no-repeat;
+                background:url('../images/icons/icons/awaiting_response.png') no-repeat;
                 background-size:100%;
             }
             .review-icon-wrapper{
                 width: 11.904%;
                 height: 100%;
-                background:url('../images/review.png') no-repeat;
+                background:url('../images/icons/icons/under_review.png') no-repeat;
                 background-size:100%;
             }
             .escalated-icon-wrapper{
                 width: 11.904%;
                 height: 100%;
-                background:url('../images/escalator.png') no-repeat;
+                background:url('../images/icons/icons/ticket_escalated.png') no-repeat;
                 background-size:100%;
             }
             .closed-icon-wrapper{
                 width: 11.904%;
                 height: 100%;
-                background:url('../images/CLOSED.png') no-repeat;
+                background:url('../images/icons/icons/ticket_closed.png') no-repeat;
                 background-size:100%;
             }
             .re-opened-icon-wrapper{
                 width: 11.904%;
                 height: 100%;
-                background:url('../images/OPEN.png') no-repeat;
+                background:url('../images/icons/icons/ticket_reopened.png') no-repeat;
                 background-size:100%;
             }
             .change-text-wrapper{
@@ -648,7 +631,34 @@
     }
     
 }
-
+input[type='submit']{
+    background-color: #9D92B2;
+    color:white;
+    border: none;
+    width: 100px;
+    height: 30px;
+    border-radius: 4%;
+    margin: 5px;
+    cursor: pointer;
+    transition: all ease-in 0.5s;
+}
+input[type='submit']:hover{
+    padding-right: 25px;
+    
+}
+textarea{
+    border: none;
+    color: white;
+    padding-top: 10px;
+    background-color: transparent;
+    border: 1px solid #FD7272;
+    ::placeholder{
+        color: white;
+    }
+    &:focus{
+        border: 0.5px solid #FD7272;
+    }
+}
 
 .green-text{
     color:#06A99C;
@@ -656,4 +666,8 @@
 }
 .chat-image{
     background: #181C28;
+}
+.resolution-text{
+    padding: 20px;
+    color: #06A99C;
 }
