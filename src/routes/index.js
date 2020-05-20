@@ -1,5 +1,6 @@
 import React from 'react';
 import { userHasLogin } from '../hoc/userHasLogin';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import LoginPage from '../pages/LoginPage';
 import TicketListingPage from '../pages/TicketListingPage';
 // import Tickets from './Components/Tickets'

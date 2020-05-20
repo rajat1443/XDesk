@@ -101,6 +101,17 @@
     opacity: 1;
 }
 
+.loader-wrapper{
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.4);
+    transition: all ease-in 0.5s    ;
+    .loader-icon{
+        position: absolute;
+        left: 45%;
+        top:45%;
+    }
+}
 
 @media screen and (max-width : 800px){
     .login-container{

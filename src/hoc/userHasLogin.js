@@ -19,6 +19,9 @@ export const userHasLogin = (WrapperView) => {
             if (token == null) {
                 this.props.history.push('/');
             }
+            window.onbeforeunload = () => {
+                localStorage.clear();
+            }
         }
 
         render() {

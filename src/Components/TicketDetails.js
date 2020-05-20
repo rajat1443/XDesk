@@ -15,105 +15,121 @@ class TicketDetails extends Component {
             ticketJourney: [],
             resolutionText: null,
             replyText: null,
-            allStatus: []
+            allStatus: [],
+            isLoading: false,
+            statusChangeLoading: false
         }
     }
 
+    // componentWillUpdate(prevProps) {
+    //     console.log(this.props)
+    // }
+
     componentDidMount() {
-
         let id = this.props.match.params.ticket_id;
-        this.getTicketInfo(id)
-
+        this.getTicketInfo(id);
     }
 
     getTicketInfo = (id) => {
-        fetch.get({
-            url: constants.SERVICE_URLS.TICKET_DETAILING + '/' + id,
-            callbackHandler: (response) => {
-                const { status, message, payload } = response;
-                const _state = cloneDeep(this.state);
+        this.setState({ isLoading: true }, () => {
+            fetch.get({
+                url: constants.SERVICE_URLS.TICKET_DETAILING + '/' + id,
+                callbackHandler: (response) => {
+                    const { status, message, payload } = response;
+                    const _state = cloneDeep(this.state);
 
+                    _state.isLoading = false;
 
-                if (status === constants.SUCCESS) {
-                    _state.message = '';
-                    _state.ticketData = payload.result.ticketDetails;
-
-                } else {
-                    _state.message = message;
+                    if (status === constants.SUCCESS) {
+                        _state.message = '';
+                        _state.ticketData = payload.result.ticketDetails;
+                    } else {
+                        _state.message = message;
+                    }
+                    this.setState(_state);
                 }
-                this.setState(_state);
-            }
+            })
         })
 
-        fetch.get({
-            url: constants.SERVICE_URLS.TICKET_REPLY + '/' + id + '/replies',
-            callbackHandler: (response) => {
+        this.setState({ isLoading: true }, () => {
+            fetch.get({
+                url: constants.SERVICE_URLS.TICKET_REPLY + '/' + id + '/replies',
+                callbackHandler: (response) => {
 
-                const { status, message, payload } = response;
+                    const { status, message, payload } = response;
 
-                const _state = cloneDeep(this.state);
+                    const _state = cloneDeep(this.state);
 
-                if (status === constants.SUCCESS) {
-                    _state.message = '';
-                    _state.ticketReplies = payload.result.conversations;
+                    if (status === constants.SUCCESS) {
+                        _state.message = '';
+                        _state.ticketReplies = payload.result.conversations;
 
-                } else {
-                    _state.message = message;
+                    } else {
+                        _state.message = message;
+                    }
+                    this.setState({ ticketReplies: _state.ticketReplies });
+
                 }
-                this.setState({ ticketReplies: _state.ticketReplies });
-
-            }
+            })
         })
 
-        fetch.get({
-            url: constants.SERVICE_URLS.TICKET_VIEW_ADMIN,
-            callbackHandler: (response) => {
-                const { status, message, payload } = response;
+        this.setState({ isLoading: true }, () => {
+            fetch.get({
+                url: constants.SERVICE_URLS.TICKET_VIEW_ADMIN,
+                callbackHandler: (response) => {
+                    const { status, message, payload } = response;
 
-                const _state = cloneDeep(this.state);
+                    const _state = cloneDeep(this.state);
 
-                if (status === constants.SUCCESS) {
-                    _state.message = "";
-                    _state.allAdminUsers = payload.data;
+                    if (status === constants.SUCCESS) {
+                        _state.message = "";
+                        _state.allAdminUsers = payload.data;
 
-                } else {
-                    _state.message = message
+                    } else {
+                        _state.message = message
+                    }
+                    this.setState({ allAdminUsers: _state.allAdminUsers })
                 }
-                this.setState({ allAdminUsers: _state.allAdminUsers })
-            }
+            })
         })
-        fetch.get({
-            url: constants.SERVICE_URLS.TICKET_HISTORY + id + '/ticket-journey',
-            callbackHandler: (response) => {
-                const { status, payload, message } = response;
 
-                const _state = cloneDeep(this.state);
+        this.setState({ isLoading: true }, () => {
+            fetch.get({
+                url: constants.SERVICE_URLS.TICKET_HISTORY + id + '/ticket-journey',
+                callbackHandler: (response) => {
+                    const { status, payload, message } = response;
 
-                if (status === constants.SUCCESS) {
-                    _state.message = "";
-                    _state.ticketJourney = payload.result.ticketJourneys;
+                    const _state = cloneDeep(this.state);
+
+                    if (status === constants.SUCCESS) {
+                        _state.message = "";
+                        _state.ticketJourney = payload.result.ticketJourneys;
 
 
-                } else {
-                    _state.message = message;
+                    } else {
+                        _state.message = message;
+                    }
+                    this.setState({ ticketJourney: _state.ticketJourney })
                 }
-                this.setState({ ticketJourney: _state.ticketJourney })
-            }
+            })
         })
-        fetch.get({
-            url: constants.SERVICE_URLS.GET_TICKET_STATUS,
-            callbackHandler: (response) => {
-                const { message, status, payload } = response;
-                const _state = cloneDeep(this.state);
-                console.log(response)
-                if (status === constants.SUCCESS) {
-                    _state.message = "";
-                    _state.allStatus = payload.data;
-                } else {
-                    _state.message = message;
+        this.setState({ isLoading: true }, () => {
+            fetch.get({
+                url: constants.SERVICE_URLS.GET_TICKET_STATUS,
+                callbackHandler: (response) => {
+                    const { message, status, payload } = response;
+                    const _state = cloneDeep(this.state);
+                    console.log(response)
+                    if (status === constants.SUCCESS) {
+                        _state.message = "";
+                        _state.allStatus = payload.data;
+                    } else {
+                        _state.message = message;
+                    }
+                    this.setState({ allStatus: _state.allStatus })
                 }
-                this.setState({ allStatus: _state.allStatus })
-            }
+            })
+
         })
     }
 
@@ -139,23 +155,85 @@ class TicketDetails extends Component {
 
     changeStatusValue = (statusValue) => {
         const id = this.props.match.params.ticket_id;
-        console.log(statusValue)
-        fetch.put({
-            url: constants.SERVICE_URLS.TICKET_STATUS + id + '/change-status?status=' + statusValue,
-            callbackHandler: (response) => {
-                window.location.reload();
-            }
+
+        this.setState({ statusChangeLoading: true }, () => {
+            fetch.put({
+                url: constants.SERVICE_URLS.TICKET_STATUS + id + '/change-status?status=' + statusValue,
+                callbackHandler: (response) => {
+                    // window.location.reload();
+                    this.setState({ statusChangeLoading: false });
+                    fetch.get({
+                        url: constants.SERVICE_URLS.TICKET_DETAILING + '/' + id,
+                        callbackHandler: (response) => {
+                            const { status, message, payload } = response;
+                            const _state = cloneDeep(this.state);
+
+                            _state.isLoading = false;
+
+                            if (status === constants.SUCCESS) {
+                                _state.message = '';
+                                _state.ticketData = payload.result.ticketDetails;
+                            } else {
+                                _state.message = message;
+                            }
+                            this.setState({ ticketData: _state.ticketData });
+                        }
+                    })
+
+                    fetch.get({
+                        url: constants.SERVICE_URLS.TICKET_HISTORY + id + '/ticket-journey',
+                        callbackHandler: (response) => {
+                            const { status, payload, message } = response;
+
+                            const _state = cloneDeep(this.state);
+
+                            if (status === constants.SUCCESS) {
+                                _state.message = "";
+                                _state.ticketJourney = payload.result.ticketJourneys;
+
+
+                            } else {
+                                _state.message = message;
+                            }
+                            this.setState({ ticketJourney: _state.ticketJourney })
+                        }
+                    })
+
+
+                }
+            })
         })
+
 
     }
     statusHandler = () => {
+
         const id = this.props.match.params.ticket_id;
-        fetch.put({
-            url: constants.SERVICE_URLS.TICKET_STATUS + id + '/change-status?status=CLOSED',
-            callbackHandler: (response) => {
-                window.location.reload();
-            }
+        this.setState({ statusChangeLoading: true }, () => {
+            fetch.put({
+                url: constants.SERVICE_URLS.TICKET_STATUS + id + '/change-status?status=CLOSED',
+                callbackHandler: (response) => {
+                    // window.location.reload();
+                    fetch.get({
+                        url: constants.SERVICE_URLS.TICKET_DETAILING + '/' + id,
+                        callbackHandler: (response) => {
+                            const { status, message, payload } = response;
+                            const _state = cloneDeep(this.state);
+
+                            this.setState({ statusChangeLoading: false })
+                            if (status === constants.SUCCESS) {
+                                _state.message = '';
+                                _state.ticketData = payload.result.ticketDetails;
+                            } else {
+                                _state.message = message;
+                            }
+                            this.setState({ ticketData: _state.ticketData });
+                        }
+                    })
+                }
+            })
         })
+
     }
 
     replyChangeHandler = (replyText) => {
@@ -165,7 +243,7 @@ class TicketDetails extends Component {
         e.preventDefault();
         const id = this.props.match.params.ticket_id;
         const url = '/' + id + '/replies';
-        this.setState(() => {
+        this.setState({ statusChangeLoading: true }, () => {
             fetch.post({
                 url: constants.SERVICE_URLS.TICKET_REPLY + url,
                 requestBody: {
@@ -174,13 +252,32 @@ class TicketDetails extends Component {
                     mailRecepients: this.state.ticketData.emailId
                 },
                 callbackHandler: (response) => {
-                    console.log(response);
+                    this.setState({ statusChangeLoading: false })
                     const { status, message, payload } = response;
                     const _state = cloneDeep(this.state);
                     console.log(response)
                     if (status === constants.SUCCESS) {
                         _state.message = message;
-                        window.location.reload();
+                        // window.location.reload();
+                        fetch.get({
+                            url: constants.SERVICE_URLS.TICKET_REPLY + '/' + id + '/replies',
+                            callbackHandler: (response) => {
+
+                                const { status, message, payload } = response;
+
+                                const _state = cloneDeep(this.state);
+
+                                if (status === constants.SUCCESS) {
+                                    _state.message = '';
+                                    _state.ticketReplies = payload.result.conversations;
+
+                                } else {
+                                    _state.message = message;
+                                }
+                                this.setState({ ticketReplies: _state.ticketReplies });
+
+                            }
+                        })
                     }
                 }
             })
@@ -197,15 +294,35 @@ class TicketDetails extends Component {
         if (this.state.resolutionText === null) {
             alert("Resolution can't be empty!")
         } else {
-            fetch.post({
-                url: constants.SERVICE_URLS.TICKET_RESOLUTION + id + '/resolution',
-                requestBody: {
-                    text: this.state.resolutionText
-                },
-                callbackHandler: (response) => {
-                    console.log(response)
-                }
+            this.setState({ statusChangeLoading: true }, () => {
+                fetch.post({
+                    url: constants.SERVICE_URLS.TICKET_RESOLUTION + id + '/resolution',
+                    requestBody: {
+                        text: this.state.resolutionText
+                    },
+                    callbackHandler: (response) => {
+                        this.setState({ statusChangeLoading: false });
+                        fetch.get({
+                            url: constants.SERVICE_URLS.TICKET_DETAILING + '/' + id,
+                            callbackHandler: (response) => {
+                                const { status, message, payload } = response;
+                                const _state = cloneDeep(this.state);
+
+                                _state.isLoading = false;
+
+                                if (status === constants.SUCCESS) {
+                                    _state.message = '';
+                                    _state.ticketData = payload.result.ticketDetails;
+                                } else {
+                                    _state.message = message;
+                                }
+                                this.setState(_state);
+                            }
+                        })
+                    }
+                })
             })
+
         }
     }
 

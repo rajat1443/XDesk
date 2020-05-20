@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 
 const TableView = (payload) => {
     const { listingData } = payload;
+    console.log(listingData)
     const columns = [
         { dataField: "id", text: "Ticket ID" },
         { dataField: "subject", text: "subject" },
