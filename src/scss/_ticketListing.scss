@@ -23,7 +23,7 @@
         }
     }
     tr{
-        height: 10%;
+        // height: 0rem;
         background-color: #181C28;
         margin-bottom: 100px;
         font-family: "Proxima Nova";
@@ -36,7 +36,8 @@
         }
     }
     th,td{
-        padding: 6px;
+        padding: 0px 12px;
+        text-align: center;
     }
     th{
         color: white;
