@@ -24,7 +24,10 @@
 
 .TicketDetails-container{
     width: 100vw;
+    height: 100vh;
     position: relative;
+    
+    background-color: #181C28;
     .popup-background-wrapper{
         position: absolute;
         width: 100%;
@@ -177,6 +180,7 @@
 
     .ticket-brief-wrapper{
         @include scrollbars(5px,#FD7272, #181C28);
+        height: 100vh;
         background-color: #181C28;
         color:#06A99C;
         border-right: 1px solid rgba(0, 0, 0, 0.253);

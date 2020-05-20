@@ -118,7 +118,7 @@ const TicketView = (payload) => {
                 <div className="ticket-details-loader-wrapper">
                     <div className="loader-icon">
                         <Loader
-                            type="TailSpin"
+                            type="Oval"
                             color="#9D92B2"
                             height={100}
                             width={100}
@@ -132,7 +132,7 @@ const TicketView = (payload) => {
                         statusChangeLoading ? <div className="status-loader-wrapper">
                             <div className="status-loader-icon-wrapper">
                                 <Loader
-                                    type="TailSpin"
+                                    type="Oval"
                                     color="#9D92B2"
                                     height={100}
                                     width={100}
