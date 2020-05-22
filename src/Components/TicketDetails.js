@@ -10,6 +10,7 @@ class TicketDetails extends Component {
         super(props);
         this.state = {
             ticketData: [],
+            listingData: [],
             ticketReplies: [],
             allAdminUsers: [],
             ticketJourney: [],
@@ -47,6 +48,34 @@ class TicketDetails extends Component {
                         _state.message = message;
                     }
                     this.setState(_state);
+                }
+            })
+        })
+
+        this.setState({ isLoading: true }, () => {
+            fetch.get({
+                url: constants.SERVICE_URLS.TICKET_LISTING,
+                requestParams: {
+                    page: 0,
+                    limit: 50
+                },
+                callbackHandler: (response) => {
+                    const { status, message, payload } = response;
+                    const _state = cloneDeep(this.state);
+                    _state.isLoading = false;
+                    console.log(response)
+
+                    if (status === constants.SUCCESS) {
+                        _state.message = '';
+                        _state.listingData = payload.result.tickets;
+                        _state.listingData.sort((a, b) => a.id - b.id)
+
+                    } else {
+                        _state.message = message;
+                    }
+
+                    this.setState(_state);
+
                 }
             })
         })
@@ -133,7 +162,27 @@ class TicketDetails extends Component {
         })
     }
 
+    updateTicketData = (id) => {
+        this.setState({ isLoading: true }, () => {
+            fetch.get({
+                url: constants.SERVICE_URLS.TICKET_DETAILING + '/' + id,
+                callbackHandler: (response) => {
+                    const { status, message, payload } = response;
+                    const _state = cloneDeep(this.state);
 
+                    _state.isLoading = false;
+
+                    if (status === constants.SUCCESS) {
+                        _state.message = '';
+                        _state.ticketData = payload.result.ticketDetails;
+                    } else {
+                        _state.message = message;
+                    }
+                    this.setState(_state);
+                }
+            })
+        })
+    }
 
     changeSelectValue = (selectValue, ticketStatus) => {
         if (ticketStatus === "CLOSED") {
@@ -239,49 +288,73 @@ class TicketDetails extends Component {
     replyChangeHandler = (replyText) => {
         this.setState({ replyText: replyText });
     }
-    replySubmitHandler = (e) => {
-        e.preventDefault();
+
+
+    replySubmitHandler = (replyOrComment) => {
+
         const id = this.props.match.params.ticket_id;
         const url = '/' + id + '/replies';
-        this.setState({ statusChangeLoading: true }, () => {
-            fetch.post({
-                url: constants.SERVICE_URLS.TICKET_REPLY + url,
-                requestBody: {
-                    text: this.state.replyText,
-                    conversationType: "Reply",
-                    mailRecepients: this.state.ticketData.emailId
-                },
-                callbackHandler: (response) => {
-                    this.setState({ statusChangeLoading: false })
-                    const { status, message, payload } = response;
-                    const _state = cloneDeep(this.state);
-                    console.log(response)
-                    if (status === constants.SUCCESS) {
-                        _state.message = message;
-                        // window.location.reload();
-                        fetch.get({
-                            url: constants.SERVICE_URLS.TICKET_REPLY + '/' + id + '/replies',
-                            callbackHandler: (response) => {
+        if (replyOrComment === "reply") {
+            this.setState({ statusChangeLoading: true }, () => {
+                fetch.post({
+                    url: constants.SERVICE_URLS.TICKET_REPLY + url,
+                    requestBody: {
+                        text: this.state.replyText,
+                        conversationType: "Reply",
+                        mailRecepients: this.state.ticketData.emailId
+                    },
+                    callbackHandler: (response) => {
+                        this.setState({ statusChangeLoading: false })
+                        const { status, message, payload } = response;
+                        const _state = cloneDeep(this.state);
+                        console.log(response)
+                        if (status === constants.SUCCESS) {
+                            _state.message = message;
+                            // window.location.reload();
+                            fetch.get({
+                                url: constants.SERVICE_URLS.TICKET_REPLY + '/' + id + '/replies',
+                                callbackHandler: (response) => {
 
-                                const { status, message, payload } = response;
+                                    const { status, message, payload } = response;
 
-                                const _state = cloneDeep(this.state);
+                                    const _state = cloneDeep(this.state);
 
-                                if (status === constants.SUCCESS) {
-                                    _state.message = '';
-                                    _state.ticketReplies = payload.result.conversations;
+                                    if (status === constants.SUCCESS) {
+                                        _state.message = '';
+                                        _state.ticketReplies = payload.result.conversations;
 
-                                } else {
-                                    _state.message = message;
+                                    } else {
+                                        _state.message = message;
+                                    }
+                                    this.setState({ ticketReplies: _state.ticketReplies });
+
                                 }
-                                this.setState({ ticketReplies: _state.ticketReplies });
-
-                            }
-                        })
+                            })
+                        }
                     }
-                }
+                })
             })
-        })
+        } else {
+            this.setState(() => {
+                fetch.post({
+                    url: constants.SERVICE_URLS.TICKET_REPLY + url,
+                    requestBody: {
+                        text: this.state.replyText,
+                        conversationType: "comment"
+                    },
+                    callbackHandler: (response) => {
+                        console.log(response);
+                        const { status, message, payload } = response;
+                        const _state = cloneDeep(this.state);
+
+                        if (status === constants.SUCCESS) {
+                            _state.message = message;
+                            window.location.reload();
+                        }
+                    }
+                })
+            })
+        }
     }
 
     resolutionChangeHandler = (resolutionText) => {
@@ -302,6 +375,7 @@ class TicketDetails extends Component {
                     },
                     callbackHandler: (response) => {
                         this.setState({ statusChangeLoading: false });
+                        console.log(response);
                         fetch.get({
                             url: constants.SERVICE_URLS.TICKET_DETAILING + '/' + id,
                             callbackHandler: (response) => {
@@ -339,6 +413,7 @@ class TicketDetails extends Component {
                 statusHandler={this.statusHandler}
                 replyChangeHandler={this.replyChangeHandler}
                 replySubmitHandler={this.replySubmitHandler}
+                updateTicketData={this.updateTicketData}
             />
 
         )

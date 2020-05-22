@@ -86,9 +86,9 @@
     font-family: "Proxima Nova";
     
     .all-tickets-wrapper{
-       
+        @include scrollbars(5px,#FD7272, #181C28);
         width: 15%;
-        
+        overflow: auto;
         background: #181C28;
         
 
@@ -129,7 +129,7 @@
             background-color: #292D39;
             color: white;
             margin: 3%;
-            margin-top:8%;
+            margin-top:6%;
             padding: 2px;
             padding-top: 0;
             border-radius: 2px 4px 4px 2px;
@@ -138,18 +138,32 @@
             width: 88%;
             height: 18%;
             box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.233);
+            transition: border .3s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    
             p{
                 padding-left:10px ;
                 font-size: 15px;
                 font-family: "Proxima Nova";
             }
-
+            &:hover{
+                border-left: 2px solid #FD7272;
+                cursor: pointer;
+                .ticket-snapshot-left-border{
+                    // display: block;
+                }
+            }
+            &:focus{
+                border-left: 2px solid #FD7272;
+            }
             .ticket-snapshot-left-border{
+                display: none;
                 height: 100%;
-                width: 3px;
+                width: 2px;
                 position: absolute;
                 left: 0;
-                background-color: black;
+                background-color: #FD7272;
+                transition: all ease-in-out 10s;
+                // border-radius: 2px 0 0 2px;
             }
 
             .snapshot-heading-wrapper{

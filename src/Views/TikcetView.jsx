@@ -12,9 +12,9 @@ import orangeReply from '../images/orange-reply.png';
 const TicketView = (payload) => {
     const [display, isVisible] = useState('id_conversation');
     const [ticketStatusPopup, shouldDisplay] = useState('no');
-    const [styleValues, styleChanger] = useState({ color: "", fontSize: "" });
-    const { ticketData, ticketReplies, changeSelectValue, changeStatusValue, resolutionChangeHandler, resolutionSubmitHandler, statusHandler, resolutionText, allAdminUsers, ticketJourney, replyChangeHandler, replySubmitHandler, allStatus, isLoading, statusChangeLoading } = payload;
+    const { ticketData, ticketReplies, changeSelectValue, changeStatusValue, resolutionChangeHandler, resolutionSubmitHandler, statusHandler, resolutionText, allAdminUsers, ticketJourney, replyChangeHandler, replySubmitHandler, allStatus, isLoading, statusChangeLoading, listingData, updateTicketData } = payload;
     const [displayreplybox, showreplybox] = useState(false);
+    const [displaycommentbox, showcommentbox] = useState(false);
 
     const creationTime = new Date(ticketData.creationTime);
     const dueOn = new Date(ticketData.dueOn)
@@ -109,6 +109,7 @@ const TicketView = (payload) => {
     }
 
     const showhidereplybox = () => showreplybox(!displayreplybox);
+    const showhidecommentbox = () => showcommentbox(!displaycommentbox);
 
 
 
@@ -180,9 +181,33 @@ const TicketView = (payload) => {
                                     <span>{ticketData.displayName}</span>
                                 </div>
                                 <div className="ticket-snapshot-information-wrapper">
-                                    <p> {ticketData.subject}</p>
+                                    <p> #{ticketData.id}  {ticketData.subject}</p>
                                 </div>
                             </div>
+                            {
+                                listingData.map((ticket) => {
+                                    return (
+                                        ticket.id === ticketData.id ? null :
+                                            <Link to={'/ticketlist/' + ticket.id}>
+                                                <div className="ticket-snapshot-wrapper" key={ticket.id} onClick={() => updateTicketData(ticket.id)}>
+                                                    <div className="ticket-snapshot-left-border"></div>
+                                                    <div className="snapshot-heading-wrapper">
+                                                        <i className="fa fa-globe">
+                                                            <span className="date-text">
+                                                                {creationTime.getDay() + ' ' + creationMonth}
+                                                            </span>
+                                                        </i>
+                                                        <span>{ticket.displayName}</span>
+                                                    </div>
+                                                    <div className="ticket-snapshot-information-wrapper">
+                                                        <p> #{ticket.id}  {ticket.subject}</p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                    )
+                                })
+                            }
+
                         </div>
                         <div className="ticket-brief-wrapper">
                             <div className="ticket-brief-heading-wrapper">
@@ -250,12 +275,13 @@ const TicketView = (payload) => {
 
                                 <div className="ticket-brief-department-wrapper">
                                     <span className="red-text">Department</span>
-                                    <span>Human Resource</span>
+                                    <span>{ticketData.department}</span>
                                 </div>
 
                                 <div className="ticket-brief-sub-issue-wrapper">
                                     <span className="red-text">Sub Issue</span>
-                                    <span>{ticketData.department}</span>
+                                    <span>{ticketData.subIssue}</span>
+
                                 </div>
 
                                 <div className="ticket-brief-classifications-wrapper">
@@ -286,9 +312,9 @@ const TicketView = (payload) => {
                                             <p>{'#' + ticketData.id} {ticketData.subject}</p>
                                         </div>
                                         <div className="subject-right-side-wrapper">
-                                            <img className="reply-image" src={orangeReply} alt="nothing here" width="30px" height="30px" />
+                                            <img className="reply-image" src={orangeReply} title="Reply" alt="nothing here" width="30px" height="30px" tooltip="hey" onClick={() => { showhidereplybox(); showcommentbox(false) }} />
                                             {/* <Link to={'/ticketlist/' + ticketData.id}> */}
-                                            <img className="chat-image" src={orangeChat} alt="nothing here" width="30px" height="30px" onClick={showhidereplybox} />
+                                            <img className="chat-image" src={orangeChat} title="Comment" alt="nothing here" width="30px" height="30px" onClick={() => { showhidecommentbox(); showreplybox(false) }} />
                                             {/* </Link> */}
                                         </div>
                                     </div>
@@ -317,13 +343,25 @@ const TicketView = (payload) => {
                                 <div className="total-ticket-details-wrapper">
                                     {displayreplybox === true ?
                                         <React.Fragment>
-                                            <form id="reply-form" onSubmit={(e) => { replySubmitHandler(e); showreplybox() }}>
+                                            <form id="reply-form" onSubmit={(e) => { e.preventDefault(); replySubmitHandler("reply"); showreplybox() }}>
                                                 <div class="comment-box-wrapper">
                                                     <textarea form="reply-form" id="reply" onChange={(e) => { replyChangeHandler(e.target.value) }} cols="82" rows="8" placeholder="Please add a reply.Note: This will send an email to the user who raised the ticket"></textarea>
                                                 </div>
                                                 <div class="buttons-wrapper">
                                                     <input type="submit" value="Send" ></input>
                                                     <button id="cancel-reply" onClick={showreplybox}>Cancel</button>
+                                                </div>
+                                            </form>
+                                        </React.Fragment> : null}
+                                    {displaycommentbox === true ?
+                                        <React.Fragment>
+                                            <form id="comment-form" onSubmit={(e) => { e.preventDefault(); replySubmitHandler("comment"); showreplybox() }}>
+                                                <div class="comment-box-wrapper">
+                                                    <textarea form="comment-form" id="reply" onChange={(e) => { replyChangeHandler(e.target.value) }} cols="82" rows="8" placeholder="Please add a comment.Note: This will NOT send an email to the user who raised the ticket"></textarea>
+                                                </div>
+                                                <div class="buttons-wrapper">
+                                                    <input type="submit" value="Send" ></input>
+                                                    <button id="cancel-reply" onClick={showcommentbox}>Cancel</button>
                                                 </div>
                                             </form>
                                         </React.Fragment> : null}
