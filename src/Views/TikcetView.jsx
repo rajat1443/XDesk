@@ -7,12 +7,13 @@ import clock from '../images/stopwatch.png';
 import orangeChat from '../images/message.png';
 import { Link } from 'react-router-dom';
 import orangeReply from '../images/orange-reply.png';
+import { fireEvent } from '@testing-library/react';
 
 
 const TicketView = (payload) => {
     const [display, isVisible] = useState('id_conversation');
     const [ticketStatusPopup, shouldDisplay] = useState('no');
-    const { ticketData, ticketReplies, changeSelectValue, changeStatusValue, resolutionChangeHandler, resolutionSubmitHandler, statusHandler, resolutionText, allAdminUsers, ticketJourney, replyChangeHandler, replySubmitHandler, allStatus, isLoading, statusChangeLoading, listingData, updateTicketData } = payload;
+    const { ticketData, ticketReplies, changeSelectValue, changeStatusValue, resolutionChangeHandler, resolutionSubmitHandler, statusHandler, resolutionText, allAdminUsers, ticketJourney, replyChangeHandler, replySubmitHandler, allStatus, isLoading, statusChangeLoading, listingData, updateTicketData, fileSelect, downloadFile } = payload;
     const [displayreplybox, showreplybox] = useState(false);
     const [displaycommentbox, showcommentbox] = useState(false);
 
@@ -33,6 +34,8 @@ const TicketView = (payload) => {
     month[11] = "December";
     var creationMonth = month[creationTime.getMonth()];
     var dueOnMonth = month[dueOn.getMonth()];
+
+
 
     const selectMapper = (mapValues) => {
         mapValues.map((option) => {
@@ -108,10 +111,22 @@ const TicketView = (payload) => {
         }
     }
 
+
     const showhidereplybox = () => showreplybox(!displayreplybox);
     const showhidecommentbox = () => showcommentbox(!displaycommentbox);
 
-
+    const assignedFinder = (assignedPerson) => {
+        switch (assignedPerson) {
+            case "admin default person":
+                return "admin@xebia.com"
+            case "finance default person":
+                return "finance@xebia.com"
+            case "hr default person":
+                return "hr@xebia.com"
+            default:
+                return "none@xebia.com"
+        }
+    }
 
     return (
         <React.Fragment>
@@ -186,15 +201,19 @@ const TicketView = (payload) => {
                             </div>
                             {
                                 listingData.map((ticket) => {
+                                    const dueOn = new Date(ticket.creationTime);
+
                                     return (
+
+
                                         ticket.id === ticketData.id ? null :
-                                            <Link to={'/ticketlist/' + ticket.id}>
+                                            <Link key={ticket.id} to={'/ticketlist/' + ticket.id}>
                                                 <div className="ticket-snapshot-wrapper" key={ticket.id} onClick={() => updateTicketData(ticket.id)}>
-                                                    <div className="ticket-snapshot-left-border"></div>
+
                                                     <div className="snapshot-heading-wrapper">
                                                         <i className="fa fa-globe">
                                                             <span className="date-text">
-                                                                {creationTime.getDay() + ' ' + creationMonth}
+                                                                {dueOn.getDate() + '/' + (dueOn.getMonth() + 1)}
                                                             </span>
                                                         </i>
                                                         <span>{ticket.displayName}</span>
@@ -222,11 +241,12 @@ const TicketView = (payload) => {
                                     <span>Assigned To</span>
                                     <div className="profile-wrapper">
 
-                                        <select value={ticketData.assignedTo} onChange={(e) => { changeSelectValue(e.target.value, ticketData.status) }}>
+                                        <select value={assignedFinder(ticketData.assignedTo)} onChange={(e) => { changeSelectValue(e.target.value, ticketData.status) }}>
                                             {allAdminUsers ?
                                                 allAdminUsers.map((admin) => {
                                                     return (
-                                                        <option key={admin.emailId} value={admin.emailId}>{admin.name}</option>
+                                                        admin.emailId === "rajat.sharma@xebia.com" ? null :
+                                                            <option key={admin.emailId} value={admin.emailId}>{admin.name}</option>
                                                     )
                                                 })
                                                 : null}
@@ -256,7 +276,7 @@ const TicketView = (payload) => {
 
                                 <div className="closed-time-wrapper">
                                     <span>Closed Time</span>
-                                    <span className="date-time-wrapper"> {dueOn.getDate() + ' ' + dueOnMonth}</span>
+                                    <span className="date-time-wrapper">{console.log(dueOn.getDate())} {dueOn.getUTCDate() + ' ' + dueOnMonth}</span>
                                 </div>
 
                                 <div className="ticket-information-heading-wrapper">
@@ -320,7 +340,7 @@ const TicketView = (payload) => {
                                     </div>
                                     <div className="time-wrapper">
                                         <img src={clock} alt="clock icon here" width="15px" height="15px" />
-                                        <p>{creationTime.getDay() + ' ' + creationMonth}</p>
+                                        <p>{dueOn.getDate() + ' ' + creationMonth}</p>
                                     </div>
                                 </div>
                             </div>
@@ -328,9 +348,9 @@ const TicketView = (payload) => {
                                 <div className="conversation-wrapper" onClick={() => isVisible('id_conversation')} style={display === 'id_conversation' ? { color: "#06A99C", fontSize: "11px", fontWeight: "bolder" } : null}> Conversation</div>
 
                                 <div className="resolution-nav-wrapper" onClick={() => isVisible('id_resolution')} style={display === 'id_resolution' ? { color: '#06A99C', fontSize: "11px", fontWeight: "bolder" } : null}>resolution</div>
-                                <div className="time-entry-wrapper">time-entry</div>
-                                <div className="attachment-wrapper">attachment</div>
-                                <div className="activity-wrapper">activity</div>
+
+                                <div className="attachment-wrapper" onClick={() => isVisible('id_attachment')} > attachment</div>
+
                                 <div className="approval-wrapper">approval</div>
                                 <div className="history-wrapper" onClick={() => isVisible('id_history')} style={display === 'id_history' ? { color: '#06A99C', fontSize: "11px", fontWeight: "bolder" } : null} > history</div>
                             </div>
@@ -344,9 +364,12 @@ const TicketView = (payload) => {
                                     {displayreplybox === true ?
                                         <React.Fragment>
                                             <form id="reply-form" onSubmit={(e) => { e.preventDefault(); replySubmitHandler("reply"); showreplybox() }}>
-                                                <div class="comment-box-wrapper">
+                                                <div className="comment-box-wrapper">
                                                     <textarea form="reply-form" id="reply" onChange={(e) => { replyChangeHandler(e.target.value) }} cols="82" rows="8" placeholder="Please add a reply.Note: This will send an email to the user who raised the ticket"></textarea>
+                                                    <input type="file" multiple onChange={(e) => fileSelect(e)} />
                                                 </div>
+
+
                                                 <div class="buttons-wrapper">
                                                     <input type="submit" value="Send" ></input>
                                                     <button id="cancel-reply" onClick={showreplybox}>Cancel</button>
@@ -365,7 +388,9 @@ const TicketView = (payload) => {
                                                 </div>
                                             </form>
                                         </React.Fragment> : null}
+
                                     <div className="name-wrapper">
+
                                         <p className="username-wrapper">{ticketData.emailId} <span className="details-date-wrapper">{creationTime.getDay() + ' ' + creationMonth} {}</span></p> <br />
                                         <p className="ticket-description">{ticketData.description}</p>
                                     </div>
@@ -378,7 +403,7 @@ const TicketView = (payload) => {
                                                     <div className="individual-reply-wrapper" key={reply.id}>
                                                         <div className="reply-heading-wrapper">
                                                             <div className="profile-wrapper"></div>
-                                                            <span className="reply-createdOn-wrapper"> {replyCreatedOn.getHours()} : {replyCreatedOn.getMinutes()} </span>
+                                                            <span className="reply-createdOn-wrapper"> {replyCreatedOn.getHours()} : {replyCreatedOn.getMinutes()} ,{replyCreatedOn.getDate()} </span>
                                                         </div>
                                                         <div className="reply-text-wrapper">{reply.text}</div>
                                                     </div>
@@ -426,6 +451,12 @@ const TicketView = (payload) => {
                                             </div>
                                         </React.Fragment> : <p> NO history of the ticket found</p>
                                     : null
+                            }
+                            {
+                                display === 'id_attachment' ?
+                                    <a href="/home/ec2-user/helpdesk_deploy/UPLOAD/3/Screenshot from 2020-05-22 12-06-33.jpg_1590465234624" download>Download</a>
+                                    : null
+
                             }
 
                             {/* <div className="replies-wrapper">
