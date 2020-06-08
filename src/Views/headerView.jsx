@@ -17,7 +17,7 @@ export const headerView = (payload) => {
                     <Link to='/TicketDetails'> Customer </Link>
                 </div>
                 <div className="navbar-report-wrapper">
-                    <Link to='/TicketReply'> Reports </Link>
+                    <Link to='/reports'> Reports </Link>
                 </div>
                 <div className="navbar-activites-wrapper">
                     Activities

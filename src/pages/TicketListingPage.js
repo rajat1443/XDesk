@@ -51,7 +51,7 @@ export default class TicketListingPage extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <sidebarView />
+
                 {/* <TicketListingView
                     {...this.state}
                 /> */}

@@ -34,18 +34,7 @@ class TicketDetails extends Component {
         this.getTicketInfo(id);
     }
 
-    fileSelect = (e) => {
-        let files = e.target.files;
 
-        // let reader = new FileReader();
-        // reader.readAsDataURL(files[0]);
-        // reader.onload = (e) => {
-        //     console.log(e.target.result)
-        // }
-        this.setState({ fileSelects: files[0] })
-
-
-    }
 
     downloadFile = () => {
 
@@ -336,7 +325,18 @@ class TicketDetails extends Component {
 
     }
 
+    fileSelect = (e) => {
+        let files = e.target.files;
 
+        // let reader = new FileReader();
+        // reader.readAsDataURL(files[0]);
+        // reader.onload = (e) => {
+        //     console.log(e.target.result)
+        // }
+        this.setState({ fileSelects: files[0] })
+
+
+    }
     replyChangeHandler = (replyText) => {
         this.setState({ replyText: replyText });
     }
@@ -372,7 +372,7 @@ class TicketDetails extends Component {
 
 
         bodyFOrmData.append('request', request);
-        bodyFOrmData.append('file', this.state.fileSelects.name)
+        bodyFOrmData.append('file', this.state.fileSelects)
         // bodyFOrmData.set('conversationType', "Reply");
         // bodyFOrmData.set('mailRecepients', this.state.ticketData.emailId);
         if (replyOrComment === "reply") {

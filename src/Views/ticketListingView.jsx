@@ -9,6 +9,7 @@ export const ticketListingView = (payload) => {
 
     return (
         <div className="ticket-container">
+
             <div className="ticket-container-nav">
                 <div className="select-all-checkbox">
                     <input type="checkbox" />

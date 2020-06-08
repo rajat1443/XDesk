@@ -21,6 +21,7 @@ export default class LoginPage extends React.Component {
         this.redirectTicketList();
     }
 
+
     onInputChange = (payload) => {
         this.setState({ ...this.state, ...payload });
     }

@@ -8,6 +8,7 @@ import TicketDetails from '../Components/TicketDetails';
 import Reply from '../pages/ReplyPage';
 import { BrowserRouter, Route } from 'react-router-dom';
 import Tickets from '../Components/Tickets'
+import ReportPage from '../pages/ReportPage';
 
 export const routes = () => {
   return (
@@ -17,6 +18,7 @@ export const routes = () => {
       <Route exact={true} path='/ticketlist/:ticket_id' component={userHasLogin(TicketDetails)} />
       <Route exact={true} path='/ticket/:ticket_id' component={Reply} />
       <Route exact={true} path='/addtickets' component={userHasLogin(Tickets)} />
+      <Route exact={true} path='/reports' component={userHasLogin(ReportPage)} />
       {/* 
            />
            */}

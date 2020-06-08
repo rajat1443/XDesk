@@ -24,7 +24,7 @@ $leftPositon: 30%;
 
   &::-webkit-scrollbar-thumb {
     background: $foreground-color;
-    border: 0.5px solid #1c2634;
+    
     
   }
 
@@ -46,7 +46,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @include scrollbars(8px,#FD7272,#181C28,  );
+  @include scrollbars(8px,rgb(49, 76, 114),#181C28 );
   
 }
 
