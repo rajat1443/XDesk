@@ -8,11 +8,8 @@ import orangeChat from '../images/message.png';
 import { Link } from 'react-router-dom';
 import orangeReply from '../images/orange-reply.png';
 import { fireEvent } from '@testing-library/react';
-<<<<<<< HEAD
 import FeedBackView from './feedBackView';
 
-=======
->>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
 
 
 const TicketView = (payload) => {
@@ -163,7 +160,6 @@ const TicketView = (payload) => {
                             </div>
                         </div> : null
                     }
-<<<<<<< HEAD
                     {
                         ticketStatusPopup === 'yes' ?
                             <div className="popup-background-wrapper">
@@ -172,9 +168,6 @@ const TicketView = (payload) => {
                             : null
                     }
                     {/* {ticketStatusPopup === 'yes' ?
-=======
-                    {ticketStatusPopup === 'yes' ?
->>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
                         <div className="popup-background-wrapper">
                             <div className="status-popup-wrapper">
                                 <div className="close-wrapper">
@@ -186,13 +179,8 @@ const TicketView = (payload) => {
                                     <button type="submit" onClick={() => { shouldDisplay('no') }}>No</button>
                                 </div>
                             </div>
-<<<<<<< HEAD
                         </div> : null} */}
 
-=======
-                        </div>
-                        : null}
->>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
                     <div className="ticket-details-nav-wrapper">
                         {/* <TikcetListNav /> */}
                     </div>
@@ -374,11 +362,8 @@ const TicketView = (payload) => {
 
                                 <div className="approval-wrapper">approval</div>
                                 <div className="history-wrapper" onClick={() => isVisible('id_history')} style={display === 'id_history' ? { color: '#06A99C', fontSize: "11px", fontWeight: "bolder" } : null} > history</div>
-<<<<<<< HEAD
 
 
-=======
->>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
                             </div>
 
                             {/* <form>
@@ -478,24 +463,14 @@ const TicketView = (payload) => {
                                         </React.Fragment> : <p> NO history of the ticket found</p>
                                     : null
                             }
-<<<<<<< HEAD
 
                             {
                                 display === 'id_attachment' ?
                                     <a href="https://xebiaappsdiag612.blob.core.windows.net/xebiaappsdiag612/Screenshot%20from%202020-06-09%2009-59-42_1591678985264.png" download={true}>Download</a>
-=======
-                            {
-                                display === 'id_attachment' ?
-                                    <a href="/home/ec2-user/helpdesk_deploy/UPLOAD/3/Screenshot from 2020-05-22 12-06-33.jpg_1590465234624" download>Download</a>
->>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
                                     : null
 
                             }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
                             {/* <div className="replies-wrapper">
                             <h1>Replies</h1>
 
@@ -511,9 +486,9 @@ const TicketView = (payload) => {
                                 : console.log('nothing here')}
                         </div> */}
 
-                        </div>
+                        </div >
 
-                    </div>
+                    </div >
                 </div >}
         </React.Fragment >
     )
