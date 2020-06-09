@@ -3,24 +3,23 @@ import { Link } from 'react-router-dom';
 
 
 const TableView = (payload) => {
-    const { listingData } = payload;
-    console.log(listingData)
+    const { listingData, onChangeHandler, onSubmitHandler, viewAllTickets } = payload;
+
 
 
     return (
         <React.Fragment>
-            {/* <div className="filter-wrapper">
-                <div className="form-wrapper">
-                    <form>
-                        <span> SEARCH</span>
-                        <input type="date" />
-                        <span> to </span>
-                        <input type="date" />
-                        <input type="text" placeholder="Search for tickets..." />
-                        <input type="submit" value="Search" />
-                    </form>
-                </div>
-            </div> */}
+            <div className="filter-wrapper">
+                <form onSubmit={onSubmitHandler}>
+                    <span className="search-text-wapper"> SEARCH</span>
+                    <input type="date" />
+                    <span> to </span>
+                    <input type="date" />
+                    <input type="text" placeholder="Search for tickets..." onChange={(e) => onChangeHandler({ searchString: e.currentTarget.value })} />
+                    <input type="submit" value="Search" />
+                    <button id="view-tickets" type="button" onClick={viewAllTickets}> View All Tickets</button>
+                </form>
+            </div>
             <table className="ticketListingTable">
                 <tbody>
                     <tr id="header-row">
@@ -55,7 +54,8 @@ const TableView = (payload) => {
                         })
                     }
                 </tbody>
-            </table >
+            </table>
+
         </React.Fragment >
 
     )

@@ -8,6 +8,8 @@ import orangeChat from '../images/message.png';
 import { Link } from 'react-router-dom';
 import orangeReply from '../images/orange-reply.png';
 import { fireEvent } from '@testing-library/react';
+import FeedBackView from './feedBackView';
+
 
 
 const TicketView = (payload) => {
@@ -158,7 +160,14 @@ const TicketView = (payload) => {
                             </div>
                         </div> : null
                     }
-                    {ticketStatusPopup === 'yes' ?
+                    {
+                        ticketStatusPopup === 'yes' ?
+                            <div className="popup-background-wrapper">
+                                <FeedBackView shouldDisplay={shouldDisplay} />
+                            </div>
+                            : null
+                    }
+                    {/* {ticketStatusPopup === 'yes' ?
                         <div className="popup-background-wrapper">
                             <div className="status-popup-wrapper">
                                 <div className="close-wrapper">
@@ -170,8 +179,8 @@ const TicketView = (payload) => {
                                     <button type="submit" onClick={() => { shouldDisplay('no') }}>No</button>
                                 </div>
                             </div>
-                        </div>
-                        : null}
+                        </div> : null} */}
+
                     <div className="ticket-details-nav-wrapper">
                         {/* <TikcetListNav /> */}
                     </div>
@@ -353,6 +362,8 @@ const TicketView = (payload) => {
 
                                 <div className="approval-wrapper">approval</div>
                                 <div className="history-wrapper" onClick={() => isVisible('id_history')} style={display === 'id_history' ? { color: '#06A99C', fontSize: "11px", fontWeight: "bolder" } : null} > history</div>
+
+
                             </div>
 
                             {/* <form>
@@ -452,12 +463,14 @@ const TicketView = (payload) => {
                                         </React.Fragment> : <p> NO history of the ticket found</p>
                                     : null
                             }
+
                             {
                                 display === 'id_attachment' ?
-                                    <a href="/home/ec2-user/helpdesk_deploy/UPLOAD/3/Screenshot from 2020-05-22 12-06-33.jpg_1590465234624" download>Download</a>
+                                    <a href="https://xebiaappsdiag612.blob.core.windows.net/xebiaappsdiag612/Screenshot%20from%202020-06-09%2009-59-42_1591678985264.png" download={true}>Download</a>
                                     : null
 
                             }
+
 
                             {/* <div className="replies-wrapper">
                             <h1>Replies</h1>

@@ -13,6 +13,8 @@ $leftPositon: 30%;
 @import './navbar';
 @import './ticketListing.scss';
 @import './login.scss';
+@import './feedback.scss';
+@import './report.scss';
 
 
 @mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white,  50%)) {
