@@ -12,14 +12,19 @@ export default class TicketListingPage extends React.Component {
         super(props);
         this.state = {
             isLoading: true,
+<<<<<<< HEAD
             listingData: [],
             searchString: null
+=======
+            listingData: []
+>>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
         }
     }
 
     componentDidMount() {
         this.getTicketData();
     }
+<<<<<<< HEAD
     onSubmitHandler = (e) => {
         e.preventDefault();
         let filterListingDate = [...this.state.listingData]
@@ -58,6 +63,9 @@ export default class TicketListingPage extends React.Component {
             }
         });
     }
+=======
+
+>>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
     getTicketData = () => {
         fetch.get({
             url: constants.SERVICE_URLS.TICKET_LISTING,
@@ -69,16 +77,28 @@ export default class TicketListingPage extends React.Component {
                 const { status, message, payload } = response;
                 const _state = cloneDeep(this.state);
                 _state.isLoading = false;
+<<<<<<< HEAD
 
+=======
+                console.log(response)
+>>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
 
                 if (status === constants.SUCCESS) {
                     _state.message = '';
                     _state.listingData = payload.result.tickets;
                     _state.listingData.sort((a, b) => a.id - b.id)
+<<<<<<< HEAD
 
                 } else {
                     _state.message = message;
                 }
+=======
+                    console.log(_state.listingData);
+                } else {
+                    _state.message = message;
+                }
+
+>>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
                 this.setState(_state);
 
             }
@@ -92,12 +112,16 @@ export default class TicketListingPage extends React.Component {
                 {/* <TicketListingView
                     {...this.state}
                 /> */}
+<<<<<<< HEAD
                 <TestView
                     {...this.state}
                     onChangeHandler={this.onChangeHandler}
                     onSubmitHandler={this.onSubmitHandler}
                     viewAllTickets={this.viewAllTickets}
                 />
+=======
+                <TestView {...this.state} />
+>>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
             </React.Fragment>
         );
 

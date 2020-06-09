@@ -423,7 +423,11 @@ class TicketDetails extends Component {
         } else {
             this.setState({ statusChangeLoading: true }, () => {
                 fetch.post({
+<<<<<<< HEAD
                     url: constants.SERVICE_URLS.TICKET_RESOLUTION + id + '/resdfbnolution',
+=======
+                    url: constants.SERVICE_URLS.TICKET_RESOLUTION + id + '/resolution',
+>>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
                     requestBody: {
                         text: this.state.resolutionText
                     },

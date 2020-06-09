@@ -3,12 +3,18 @@ import { Link } from 'react-router-dom';
 
 
 const TableView = (payload) => {
+<<<<<<< HEAD
     const { listingData, onChangeHandler, onSubmitHandler, viewAllTickets } = payload;
 
+=======
+    const { listingData } = payload;
+    console.log(listingData)
+>>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
 
 
     return (
         <React.Fragment>
+<<<<<<< HEAD
             <div className="filter-wrapper">
                 <form onSubmit={onSubmitHandler}>
                     <span className="search-text-wapper"> SEARCH</span>
@@ -20,6 +26,20 @@ const TableView = (payload) => {
                     <button id="view-tickets" type="button" onClick={viewAllTickets}> View All Tickets</button>
                 </form>
             </div>
+=======
+            {/* <div className="filter-wrapper">
+                <div className="form-wrapper">
+                    <form>
+                        <span> SEARCH</span>
+                        <input type="date" />
+                        <span> to </span>
+                        <input type="date" />
+                        <input type="text" placeholder="Search for tickets..." />
+                        <input type="submit" value="Search" />
+                    </form>
+                </div>
+            </div> */}
+>>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
             <table className="ticketListingTable">
                 <tbody>
                     <tr id="header-row">
@@ -54,8 +74,12 @@ const TableView = (payload) => {
                         })
                     }
                 </tbody>
+<<<<<<< HEAD
             </table>
 
+=======
+            </table >
+>>>>>>> cdfcfa64fb7c4c28573383df179f982da0cf0abf
         </React.Fragment >
 
     )
